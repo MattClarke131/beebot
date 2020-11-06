@@ -57,10 +57,6 @@ salutations = () => {
     'dev-beebot',
     "hi friend",
   )
-  bot.postMessageToChannel(
-    'mlc',
-    "hi friend",
-  )
 }
 
 goodbye = () => {

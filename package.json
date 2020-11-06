@@ -22,5 +22,9 @@
     "fs": "0.0.1-security",
     "nodemon": "^2.0.6",
     "slackbots": "^1.2.0"
+  },
+
+  "nodemonConfig": {
+    "ignore": ["*.json"]
   }
 }
