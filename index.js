@@ -2,8 +2,11 @@ const SlackBot = require('slackbots')
 const axios = require('axios')
 const dotenv = require('dotenv')
 const fs = require('fs')
+const { commandRouter } = require('./commandRouter')
 
 dotenv.config()
+
+const COMMAND_CHARACTER = "!"
 
 const bot = new SlackBot({
   token: `${process.env.BOT_TOKEN}`,
@@ -33,45 +36,16 @@ bot.on('error', (err) => {
 bot.on('message', (message) => {
   if(message.username === 'beebot') {
     return
-  } else if(message.text) {
-    //console.log(event)
+  } else if(message.text && message.text[0] === COMMAND_CHARACTER) {
     handleMessage(message)
   }
 })
 
 function handleMessage(message) {
-
-  if(message.text.includes("hey beebot")) {
-    salutations()
-  } else if(message.text.includes("bye beebot")) {
-    goodbye()
-  } else if(message.text.slice(0, 5) === "!anon") {
-    anonSay(message.text.slice(6))
-  } else if(message.text.slice(0,7) === "!button") {
-    pushTheButton(message)
-  }
-}
-
-salutations = () => {
-  bot.postMessageToChannel(
-    'dev-beebot',
-    "hi friend",
-  )
-}
-
-goodbye = () => {
-  bot.postMessageToChannel(
-    'dev-beebot',
-    "you're dead to me"
-  )
-}
-
-anonSay = (message) => {
   console.log(message)
-  bot.postMessageToChannel(
-    'dev-beebot',
-    `:secret: ${message}`
-  )
+  commandClass = commandRouter(message.text.split(" ")[0].slice(1))
+  command = new commandClass(message)
+  command.execute(bot)
 }
 
 pushTheButton = (message) => {
