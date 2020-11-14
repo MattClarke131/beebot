@@ -1,3 +1,5 @@
 .env
 button.json
 errors.log
+.*.swp
+.*.swo
