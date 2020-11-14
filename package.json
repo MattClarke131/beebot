@@ -4,7 +4,7 @@
   "description": "\"A bee-themed slackbot\"",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "forever index.js"
   },
   "repository": {
     "type": "git",
