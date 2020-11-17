@@ -1,5 +1,5 @@
 # beebot
-BEEEEEEEEEEEEEEEEES
+###### BEEEEEEEEEEEEEEEEES
 
 ## Roadmap
 * Create a jest test for every command
@@ -8,11 +8,17 @@ BEEEEEEEEEEEEEEEEES
 * Werewolf
 * Installation instructions
 
-### Resources
-https://www.freecodecamp.org/news/building-a-slackbot-with-node-js-and-slackbots-js/
+
+## Resources
+#### Slackbots package documentation
+https://www.npmjs.com/package/slackbots
+
+#### Jest Documentation
+https://jestjs.io/docs/en/api
+
+
+#### Notes
+https://www.freecodecamp.org/news/building-a-slackbot-with-node-js-and-slackbo
 
 Possibly useful for organizing commands
 https://discordjs.guide/command-handling/#dynamically-reading-command-files
-
-Slackbots package documentation
-https://www.npmjs.com/package/slackbots
