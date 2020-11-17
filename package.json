@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "forever --spinSleepTime 10000 index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "jest --watch"
   },
   "repository": {
     "type": "git",
