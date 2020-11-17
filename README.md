@@ -1,16 +1,12 @@
 # beebot
+BEEEEEEEEEEEEEEEEES
 
-
-### Issues
-Currently I am running into the issue where tthe server is stopping and not restarting
-
-```
-{
-  type: 'error',
-  error: { msg: 'invalid message type: null', code: 3, source: 'gs-iad-vjov' }
-}
-[nodemon] clean exit - waiting for changes before restart
-```
+## Roadmap
+* Create a jest test for every command
+* Create command modules for related commands (e.g. werewolf)
+* !help command
+* Werewolf
+* Installation instructions
 
 ### Resources
 https://www.freecodecamp.org/news/building-a-slackbot-with-node-js-and-slackbots-js/
