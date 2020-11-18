@@ -6,43 +6,86 @@ class AnonCommand extends CommandBase {
     'secret',
   ]
 
+  static ERRORS = {
+    'NO_MSG': '!anon needs a message body',
+    'BAD_CHANNEL': 'That channel either doesn\'t exist, or the bees aren\'t aloud to share secrets there'
+  }
+
   DEFAULT_CHANNEL = "dev-beebot"
   ENABLED_CHANNELS = [
     'dev-beebot'
   ]
   NUMBER_OF_REQUIRED_ARGS = 1
   NUMBER_OF_OPTIONAL_ARGS = 1
-  USAGE_STRING = "!anon (#channel) Anonymous message"
+  static USAGE_STRING = "!anon (#channel) Anonymous message"
 
   constructor(message) {
     super(message)
 
-    this.parsable = true
-    this.channelDestination = this.DEFAULT_CHANNEL
+    this.arguments = this.getArguments(message.text)
+    this.channelDestination = this.getChannelDestination
+    this.outgoingMessage = this.getOutgoingMessage(this.arguments)
+  }
 
-    if(message.text.split(" ").length < 2) {
-      this.parsable = false
-    } else if(message.text.split(" ")[1][0] === "#") {
-      this.channelDestination = message.text.split(" ")[1]
-      this.anonMessage = message.text.split(" ").slice(2).join(" ")
+  getArguments(message) {
+    if (AnonCommand.aliases.includes(message)) {
+      return {
+        'msg': '',
+        'channel': '',
+      }
+    }
+
+    const commandBody = message.slice(message.indexOf(' ')+1)
+
+    if (commandBody[0] !== '#') {
+      return {
+        'msg': commandBody,
+        'channel': ''
+      }
+    } else if(commandBody.indexOf(' ') === -1) {
+      return {
+        'msg': '',
+        'channel': commandBody,
+      }
     } else {
-      this.anonMessage = message.text.split(" ").slice(1).join(" ")
+      return {
+        'msg': commandBody.slice(commandBody.indexOf(' ')+1),
+        'channel': commandBody.slice(0, commandBody.indexOf(' ')),
+      }
+    }
+  }
+
+  getChannelDestination(arguments, message) {
+    if (arguments.msg === '' && arguments.channel === '') {
+      return message.user
+    } else if (arguments.msg === '') {
+      return message.user
+    } else if (arguments.channel === '') {
+      return AnonCommand.DEFAULT_CHANNEL
+    } else if (AnonCommand.ENABLED_CHANNELS.includes(arguments.channel)) {
+      return arguments.channel
+    } else {
+      return AnonCommand.DEFAULT_CHANNEL
+    }
+  }
+
+  getOutgoingMessage(arguments) {
+    if (arguments.msg === '' && arguments.channel === '') {
+      return AnonCommand.USAGE_STRING
+    } else if (arguments.msg === '') {
+      return AnonCommand.ERRORS.NO_MSG
+    } else if (!AnonCommand.ENABLED_CHANNELS.includes(arguments.channel)) {
+      return AnonCommand.ERRORS.BAD_CHANNEL
+    } else {
+      return arguments.msg
     }
   }
 
   execute(bot) {
-    console.log(this.user)
-    if(!this.parsable) {
-      bot.postMessage(
-        this.channelSource,
-        this.USAGE_STRING
-      )
-    } else {
-      bot.postMessageToChannel(
-        this.channelDestination,
-        `:secret: ${this.anonMessage}`
-      )
-    }
+    bot.postMessage(
+      this.channelDestination,
+      this.outgoingMessage
+    )
   }
 }
 
