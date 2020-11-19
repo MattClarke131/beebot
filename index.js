@@ -45,7 +45,7 @@ function handleMessage(message) {
   console.log(message)
   let commandString
   if (message.text.indexOf(' ') === -1) {
-    commandString = message.text
+    commandString = message.text.slice(1)
   } else {
     commandString = message.text.slice(1, message.text.indexOf(' '))
   }
