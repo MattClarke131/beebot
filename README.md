@@ -2,7 +2,6 @@
 ###### BEEEEEEEEEEEEEEEEES
 
 ## Roadmap
-* Create a jest test for every command
 * Create command modules for related commands (e.g. werewolf)
 * !help command
 * Werewolf
