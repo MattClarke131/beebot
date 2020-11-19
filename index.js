@@ -43,7 +43,12 @@ bot.on('message', (message) => {
 
 function handleMessage(message) {
   console.log(message)
-  commandClass = commandRouter(message.text.split(" ")[0].slice(1))
+  if (message.text.indexOf(' ') === -1) {
+    const commandString = message.text
+  } else {
+    const commandString = message.text.slice(1, message.text.indexOf(' '))
+  }
+  commandClass = commandRouter(commandString)
   command = new commandClass(message)
   command.execute(bot)
 }
