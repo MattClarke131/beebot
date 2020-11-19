@@ -1,6 +1,4 @@
 const AnonCommand = require('./anon.js')
-//TODO
-// Use config to get good and bad channels
 const COMMAND = AnonCommand.aliases[0]
 const GOOD_CHANNEL = '#dev-beebot'
 const BAD_CHANNEL = '#anon'
