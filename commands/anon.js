@@ -75,7 +75,10 @@ class AnonCommand extends CommandBase {
       return AnonCommand.USAGE_STRING
     } else if (commandArgs.msg === '') {
       return AnonCommand.ERRORS.NO_MSG
-    } else if (!AnonCommand.ENABLED_CHANNELS.includes(commandArgs.channel)) {
+    } else if (
+        commandArgs.channel !== '' &&
+        !AnonCommand.ENABLED_CHANNELS.includes(commandArgs.channel)
+    ) {
       return AnonCommand.ERRORS.BAD_CHANNEL
     } else {
       return commandArgs.msg
