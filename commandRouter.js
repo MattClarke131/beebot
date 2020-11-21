@@ -1,6 +1,6 @@
 const Anon = require("./commands/anon")
 const Button = require("./commands/button")
-const NullCommand = require("./commands/null")
+const NoOpCommand = require("./commands/noop")
 
 const commandRouter = (command) => {
   if (Anon.aliases.includes(command)) {
@@ -8,7 +8,7 @@ const commandRouter = (command) => {
   } else if (Button.aliases.includes(command)) {
     return Button
   } else {
-    return NullCommand
+    return NoOpCommand
   }
 }
 

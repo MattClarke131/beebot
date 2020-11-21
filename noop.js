@@ -1,9 +1,9 @@
 const CommandBase = require("./commandbase.js")
 
-class NullCommand extends CommandBase {
+class NoOpCommand extends CommandBase {
   execute() {
     return
   }
 }
 
-module.exports = NullCommand
+module.exports = NoOpCommand
