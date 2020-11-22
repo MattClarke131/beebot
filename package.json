@@ -6,7 +6,8 @@
   "scripts": {
     "start": "forever --spinSleepTime 10000 index.js",
     "dev": "nodemon index.js",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "dbinit": "node dbinit.js"
   },
   "repository": {
     "type": "git",
