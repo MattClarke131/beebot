@@ -41,7 +41,7 @@ bot.on('message', (message) => {
   }
 })
 
-function handleMessage(message) {
+const handleMessage = (message) => {
   console.log(message)
   let commandString
   if (message.text.indexOf(' ') === -1) {
