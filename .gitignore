@@ -3,3 +3,4 @@ button.json
 errors.log
 .*.swp
 .*.swo
+db/*.sqlite
