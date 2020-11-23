@@ -12,7 +12,8 @@ const dbinit = async () => {
 
   db.run(`
     CREATE TABLE IF NOT EXISTS slack_user (
-      slack_id TEXT PRIMARY KEY
+      id        INTEGER   PRIMARY KEY,
+      slack_id  TEXT      NOT NULL
     )
   `);
   
