@@ -53,18 +53,3 @@ const handleMessage = (message) => {
   command = new commandClass(message)
   command.execute(bot)
 }
-
-pushTheButton = (message) => {
-  const rawdata = fs.readFileSync('button.json')
-  let buttonScore = JSON.parse(rawdata)
-  buttonScore[message.user] = buttonScore[message.user] || 0
-  buttonScore[message.user]++
-  console.log(buttonScore)
-  newRawData = JSON.stringify(buttonScore)
-  fs.writeFileSync('button.json', newRawData)
-
-  bot.postMessageToChannel(
-    'dev-beebot',
-    `:radio_button: ${buttonScore[message.user]}`
-  )
-}
