@@ -19,9 +19,9 @@ const dbinit = async () => {
   
   db.run(`
     CREATE TABLE IF NOT EXISTS button_total (
-      id        INTEGER   PRIMARY KEY,
-      slack_id  TEXT      NOT NULL,
-      total     INT       NOT NULL
+      id              INTEGER   PRIMARY KEY,
+      slack_user_id   INTEGER   NOT NULL,
+      total           INTEGER   NOT NULL
     )
  `);
 
