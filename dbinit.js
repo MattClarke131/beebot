@@ -1,8 +1,5 @@
-var sqlite3 = require('sqlite3').verbose();
-var sqlite = require('sqlite');
-
-exports.sqlite3 = sqlite3
-exports.sqlite = sqlite
+const sqlite3 = require('sqlite3').verbose();
+const sqlite = require('sqlite');
 
 const dbinit = async () => {
   const db = await sqlite.open({
@@ -26,7 +23,6 @@ const dbinit = async () => {
  `);
 
   await db.close();
-
 }
 
 dbinit();
