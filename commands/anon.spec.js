@@ -1,7 +1,7 @@
 const AnonCommand = require('./anon.js')
 const COMMAND = AnonCommand.aliases[0]
 const GOOD_CHANNEL = '#dev-beebot'
-const BAD_CHANNEL = '#anon'
+const BAD_CHANNEL = '#bad_channel'
 const MESSAGE_TEXT = 'Buzz Buzz'
 const USER = 'ANamelessDronw';
 
@@ -97,7 +97,7 @@ describe('getOutGoingMessage(commandArgs)', () => {
     })
   })
   describe('when a bad channel is given', () => {
-    const messageText = COMMAND + ' ' + MESSAGE_TEXT
+    const messageText = COMMAND + ' ' + BAD_CHANNEL + ' ' + MESSAGE_TEXT
     const commandMessage = { text: messageText, user:USER }
     const anonCommand = new AnonCommand(commandMessage)
     test('outgoing message should be bad channel error', () => {
