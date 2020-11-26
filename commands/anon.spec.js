@@ -108,8 +108,6 @@ describe('getOutGoingMessage(commandArgs)', () => {
     const messageText = COMMAND + ' ' + GOOD_CHANNEL + ' ' + MESSAGE_TEXT
     const commandMessage = { text: messageText, user:USER }
     const anonCommand = new AnonCommand(commandMessage)
-      console.log('================================================================================')
-      console.log(anonCommand.commandArgs)
     test('outgoing message should be msg from commandArgs', () => {
       expect(anonCommand.outgoingMessage).toEqual(anonCommand.commandArgs.msg)
     })
