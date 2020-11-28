@@ -6,24 +6,28 @@ const DB_PATH = process.env.DB_DIR + '/test.sqlite'
 
 class BaseModel {
   static TABLE_NAME = 'base'
-
-  constructor(params) {
+  static DEFAULT_VALUES = {
     // An id of 0 means there is no corresponding db row
-    this.id = params.id
+    'id': 0,
+  }
+
+  constructor(params = {}) {
+    this._assignColumnProperties(params)
     this.tableName = BaseModel.TABLE_NAME
   }
 
-  // Alternate constructors
-  static getEmptyInstance() {
-    const id = 0
-    const params = { id }
-
-    return new BaseModel(params)
+  // constructor helper
+  _assignColumnProperties(params) {
+    const columns = Object.keys(BaseModel.DEFAULT_VALUES)
+    for(let i=0; i<columns.length; i++) {
+      this[columns[i]] = params[columns[i]] ? params [columns[0]] : BaseModel.DEFAULT_VALUES[columns[0]]
+    }
   }
 
+  // Alternate constructors
   static async getInstanceFromId(id) {
     const row = await this._getRowFromId(id)
-    return row.id === undefined ? this.getEmptyInstance() : new BaseModel(row)
+    return new BaseModel(row)
   }
 
   // "private" static methods

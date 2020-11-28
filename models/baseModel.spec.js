@@ -78,9 +78,9 @@ describe('static _getDb', () => {
   })
 })
 
-describe('BaseModel static getEmptyInstance', () => {
+describe('constructor', () => {
   it('should return an instance with empty values', () => {
-    const baseInstance = BaseModel.getEmptyInstance()
+    const baseInstance = new BaseModel
     expect(baseInstance.id).toBe(0)
   })
 })
@@ -104,7 +104,16 @@ describe('BaseModel static getInstanceFromId', () => {
 
 describe('BaseModel _insertRow()', () => {
   it('should create a row', async () => {
-    const baseInstance = BaseModel.getEmptyInstance()
+    const baseInstance = new BaseModel
+    await baseInstance._insertRow()
+    const readBaseInstance = await BaseModel.getInstanceFromId(ROW_ID_1)
+    expect(readBaseInstance.id).toBe(ROW_ID_1)
+  })
+})
+
+describe('BaseModel _updateRow', () => {
+  it('should update a row with instance properties', async () => {
+    const baseInstance = new BaseModel
     await baseInstance._insertRow()
     const readBaseInstance = await BaseModel.getInstanceFromId(ROW_ID_1)
     expect(readBaseInstance.id).toBe(ROW_ID_1)
