@@ -4,9 +4,11 @@ const dotenv = require('dotenv')
 dotenv.config()
 // TODO change this to use env.TEST_DB
 const DB_PATH = process.env.DB_DIR + '/test.sqlite'
-
 const BaseModel = require('./baseModel')
+
+// Test Contants
 const ROW_ID_1 = 1
+const VALUE_STRING = 'value_1'
 
 beforeEach(async () => {
   // This function returns a promise, so we need to return the function result
@@ -30,7 +32,8 @@ const initializeTestDatabase = async () => {
   const table = BaseModel.TABLE_NAME
   await testDatabase.run(`
     CREATE TABLE IF NOT EXISTS ${table} (
-      id        INTEGER   PRIMARY KEY   AUTOINCREMENT
+      id        INTEGER   PRIMARY KEY   AUTOINCREMENT,
+      col_1     TEXT
     )
   `)
 
@@ -109,13 +112,14 @@ describe('BaseModel _insertRow()', () => {
     const readBaseInstance = await BaseModel.getInstanceFromId(ROW_ID_1)
     expect(readBaseInstance.id).toBe(ROW_ID_1)
   })
-})
-
-describe('BaseModel _updateRow', () => {
-  it('should update a row with instance properties', async () => {
-    const baseInstance = new BaseModel
-    await baseInstance._insertRow()
-    const readBaseInstance = await BaseModel.getInstanceFromId(ROW_ID_1)
-    expect(readBaseInstance.id).toBe(ROW_ID_1)
+  describe('when an optional column is included', () => {
+    it('should create a row', async () => {
+      const baseInstance = new BaseModel
+      baseInstance.col_1 = VALUE_STRING
+      await baseInstance._insertRow()
+      const readBaseInstance = await BaseModel.getInstanceFromId(ROW_ID_1)
+      expect(readBaseInstance.id).toBe(ROW_ID_1)
+      expect(readBaseInstance.col_1).toBe(VALUE_STRING)
+    })
   })
 })

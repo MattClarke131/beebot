@@ -9,6 +9,7 @@ class BaseModel {
   static DEFAULT_VALUES = {
     // An id of 0 means there is no corresponding db row
     'id': 0,
+    'col_1': '',
   }
 
   constructor(params = {}) {
@@ -21,7 +22,7 @@ class BaseModel {
   _assignColumnProperties(params) {
     const columns = Object.keys(this.defaultValues)
     for(let i=0; i<columns.length; i++) {
-      this[columns[i]] = params[columns[i]] ? params [columns[0]] : this.defaultValues[columns[0]]
+      this[columns[i]] = params[columns[i]] ? params [columns[i]] : this.defaultValues[columns[i]]
     }
   }
 
@@ -57,10 +58,12 @@ class BaseModel {
 
   async _insertRow() {
     const db = await this._getDb()
-    const id = this.id === 0 ? null : this.id
+    const columns = Object.keys(this.defaultValues).filter(k => k!=='id').join(',')
+    const unnamedParamString = Object.keys(this.defaultValues).filter(k => k!=='id').map(k => '?').join(', ')
+    const values = Object.keys(this.defaultValues).filter(k => k!=='id').map(c => this[c])
     await db.run(
-      `INSERT INTO ${this.tableName} VALUES (?)`,
-      id
+      `INSERT INTO ${this.tableName} (${columns}) VALUES (${unnamedParamString})`,
+      values
     )
     db.close()
   }
