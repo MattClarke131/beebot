@@ -10,6 +10,7 @@ class BaseModel {
   constructor(params) {
     // An id of 0 means there is no corresponding db row
     this.id = params.id
+    this.tableName = BaseModel.TABLE_NAME
   }
 
   // Alternate constructors
@@ -42,6 +43,21 @@ class BaseModel {
     db.close()
 
     return row === undefined ? {} : row
+  }
+
+  // "private" Instance methods
+  async _getDb() {
+    return BaseModel._getDb()
+  }
+
+  async _insertRow() {
+    const db = await this._getDb()
+    const id = this.id === 0 ? null : this.id
+    await db.run(
+      `INSERT INTO ${this.tableName} VALUES (?)`,
+      id
+    )
+    db.close()
   }
 }
 

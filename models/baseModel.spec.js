@@ -101,3 +101,12 @@ describe('BaseModel static getInstanceFromId', () => {
     })
   })
 })
+
+describe('BaseModel _insertRow()', () => {
+  it('should create a row', async () => {
+    const baseInstance = BaseModel.getEmptyInstance()
+    await baseInstance._insertRow()
+    const readBaseInstance = await BaseModel.getInstanceFromId(ROW_ID_1)
+    expect(readBaseInstance.id).toBe(ROW_ID_1)
+  })
+})
