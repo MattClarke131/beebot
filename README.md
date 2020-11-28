@@ -4,11 +4,18 @@
 ## How to use
 #### Installation
 > npm run dbinit
+#### Configuration
+Create a .env file in the project directory with the following contents:
+```
+BOT_TOKEN=YOUR_BOT_TOKEN_HERE
+DB_DIR='absolute/path/to/your/db/dir'
+```
 #### Run in production
 > npm run start
 #### Run in development
 > npm run dev
-
+#### Run tests
+> npm run test
 
 ## Roadmap
 * Create command modules for related commands (e.g. werewolf)
