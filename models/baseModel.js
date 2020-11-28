@@ -10,6 +10,7 @@ class BaseModel {
     // An id of 0 means there is no corresponding db row
     'id': 0,
     'col_1': '',
+    'col_2': 1,
   }
 
   constructor(params = {}) {
@@ -64,6 +65,24 @@ class BaseModel {
     await db.run(
       `INSERT INTO ${this.tableName} (${columns}) VALUES (${unnamedParamString})`,
       values
+    )
+    db.close()
+  }
+
+  async _updateRow() {
+    const db = await this._getDb()
+    let keyValues = Object.keys(this.defaultValues)
+      .map((k) => {
+        const value = typeof this[k] === 'string'
+          ? `'${this[k]}'`
+          : `${this[k]}`
+
+          return `${k} = ${value}`
+      })
+      .join(', ')
+
+    await db.run(
+      `UPDATE ${this.tableName} SET ${keyValues} WHERE id = ${this.id}`
     )
     db.close()
   }
