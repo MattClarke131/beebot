@@ -12,15 +12,16 @@ class BaseModel {
   }
 
   constructor(params = {}) {
-    this._assignColumnProperties(params)
+    this.defaultValues = BaseModel.DEFAULT_VALUES
     this.tableName = BaseModel.TABLE_NAME
+    this._assignColumnProperties(params)
   }
 
   // constructor helper
   _assignColumnProperties(params) {
-    const columns = Object.keys(BaseModel.DEFAULT_VALUES)
+    const columns = Object.keys(this.defaultValues)
     for(let i=0; i<columns.length; i++) {
-      this[columns[i]] = params[columns[i]] ? params [columns[0]] : BaseModel.DEFAULT_VALUES[columns[0]]
+      this[columns[i]] = params[columns[i]] ? params [columns[0]] : this.defaultValues[columns[0]]
     }
   }
 
