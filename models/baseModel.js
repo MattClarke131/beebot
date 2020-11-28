@@ -27,10 +27,19 @@ class BaseModel {
     }
   }
 
-  // Alternate constructors
+  // alternate constructors
   static async getInstanceFromId(id) {
     const row = await this._getRowFromId(id)
     return new BaseModel(row)
+  }
+
+  // public instance methods
+  async save() {
+    if (this.id === this.defaultValues.id) {
+      await this._insertRow()
+    } else {
+      await this._updateRow()
+    }
   }
 
   // "private" static methods
@@ -52,7 +61,7 @@ class BaseModel {
     return row === undefined ? {} : row
   }
 
-  // "private" Instance methods
+  // "private" instance methods
   async _getDb() {
     return BaseModel._getDb()
   }

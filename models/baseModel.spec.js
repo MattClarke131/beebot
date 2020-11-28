@@ -135,11 +135,13 @@ describe('BaseModel _updateRow()', () => {
     baseInstance.col_1 = VALUE_STRING_1
     baseInstance.col_2 = VALUE_INT_1
     await baseInstance._insertRow()
+
     // update
     const readBaseInstance = await BaseModel.getInstanceFromId(ROW_ID_1)
     readBaseInstance.col_1 = VALUE_STRING_2
     readBaseInstance.col_2 = VALUE_INT_2
     await readBaseInstance._updateRow()
+
     // read
     const updatedBaseInstance = await BaseModel.getInstanceFromId(ROW_ID_1)
 
@@ -147,5 +149,43 @@ describe('BaseModel _updateRow()', () => {
     expect(updatedBaseInstance.id).toBe(ROW_ID_1)
     expect(updatedBaseInstance.col_1).toBe(VALUE_STRING_2)
     expect(updatedBaseInstance.col_2).toBe(VALUE_INT_2)
+  })
+})
+
+describe('BaseModel save()', () => {
+  describe('when saving a new row', () => {
+    it('should use _insertRow()', async () => {
+      const baseInstance = new BaseModel
+      baseInstance.col_1 = VALUE_STRING_1
+      await baseInstance.save()
+      const readBaseInstance = await BaseModel.getInstanceFromId(ROW_ID_1)
+
+      expect(readBaseInstance.id).toBe(ROW_ID_1)
+      expect(readBaseInstance.col_1).toBe(VALUE_STRING_1)
+    })
+  })
+
+  describe('when saving an old row with new information', () => {
+    it('should use _updateRow()', async () => {
+    // write
+    const baseInstance = new BaseModel
+    baseInstance.col_1 = VALUE_STRING_1
+    baseInstance.col_2 = VALUE_INT_1
+    await baseInstance.save()
+
+    // update
+    const readBaseInstance = await BaseModel.getInstanceFromId(ROW_ID_1)
+    readBaseInstance.col_1 = VALUE_STRING_2
+    readBaseInstance.col_2 = VALUE_INT_2
+    await readBaseInstance.save()
+
+    // read
+    const updatedBaseInstance = await BaseModel.getInstanceFromId(ROW_ID_1)
+
+    // test
+    expect(updatedBaseInstance.id).toBe(ROW_ID_1)
+    expect(updatedBaseInstance.col_1).toBe(VALUE_STRING_2)
+    expect(updatedBaseInstance.col_2).toBe(VALUE_INT_2)
+    })
   })
 })
