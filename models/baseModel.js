@@ -2,7 +2,6 @@ const sqlite3 = require('sqlite3').verbose()
 const sqlite = require('sqlite');
 const dotenv = require('dotenv')
 dotenv.config()
-const DB_PATH = process.env.DB_DIR + '/test.sqlite'
 
 class BaseModel {
   static TABLE_NAME = 'base'
@@ -43,9 +42,17 @@ class BaseModel {
   }
 
   // "private" static methods
+  static getDatabasePath() {
+    if (process.env.NODE_ENV === 'test') {
+      return process.env.TEST_DB_PATH
+    } else {
+      return process.env.PROD_DB_PATH
+    }
+  }
+
   static async _getDb() {
     return await sqlite.open({
-      filename: DB_PATH,
+      filename: this.getDatabasePath(),
       driver: sqlite3.Database
     })
   }
