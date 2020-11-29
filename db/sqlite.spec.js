@@ -3,7 +3,16 @@ const sqlite = require('sqlite');
 const dotenv = require('dotenv')
 dotenv.config()
 
-const DB_PATH = process.env.DB_DIR + '/test.sqlite'
+const getDatabasePath = () => {
+  if (process.env.NODE_ENV === 'test') {
+    return process.env.TEST_DB_PATH
+  } else {
+    return process.env.PROD_DB_PATH
+  }
+}
+
+// Test Constants
+const DB_PATH = getDatabasePath()
 const TABLE = 'bee'
 const NAME = 'NAME'
 const NEW_NAME = 'Beebe'
