@@ -2,11 +2,18 @@ const sqlite3 = require('sqlite3').verbose()
 const sqlite = require('sqlite');
 const dotenv = require('dotenv')
 dotenv.config()
-// TODO change this to use env.TEST_DB
-const DB_PATH = process.env.DB_DIR + '/test.sqlite'
 const BaseModel = require('./baseModel')
 
+const getDatabasePath = () => {
+  if (process.env.NODE_ENV === 'test') {
+    return process.env.TEST_DB_PATH
+  } else {
+    return process.env.PROD_DB_PATH
+  }
+}
+
 // Test Contants
+const DB_PATH = getDatabasePath()
 const ROW_ID_1 = 1
 const VALUE_STRING_1 = 'value_1'
 const VALUE_STRING_2 = 'value_2'
