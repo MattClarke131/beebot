@@ -49,7 +49,7 @@ const handleMessage = (message) => {
   } else {
     commandString = message.text.slice(1, message.text.indexOf(' '))
   }
-  commandClass = commandRouter(commandString)
-  command = new commandClass(message)
+  const commandClass = commandRouter(commandString)
+  const command = new commandClass(message)
   command.execute(bot)
 }
