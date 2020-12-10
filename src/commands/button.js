@@ -1,5 +1,5 @@
 const CommandBase = require('./commandbase.js')
-const buttonData = require('../button.json')
+const buttonData = require('../../button.json')
 const fs = require('fs')
 const path = require('path')
 

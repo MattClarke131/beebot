@@ -27,7 +27,7 @@ bot.on('start', () => {
 
 bot.on('error', (err) => {
   console.log(err)
-  fs.append('errors.log', err, (err) => {
+  fs.appendFile('../errors.log', err, (err) => {
     if (err) throw err;
     console.log('Saved error!')
   })
