@@ -25,15 +25,15 @@ bot.on('start', () => {
   )
 })
 
-bot.on('error', (err) => {
+bot.on('error', (err : any) => {
   console.log(err)
-  fs.appendFile('../errors.log', err, (err) => {
+  fs.appendFile('../errors.log', err, (err : any) => {
     if (err) throw err;
     console.log('Saved error!')
   })
 })
 
-bot.on('message', (message) => {
+bot.on('message', (message : any) => {
   if(message.username === 'beebot') {
     return
   } else if(message.text && message.text[0] === COMMAND_CHARACTER) {
@@ -41,7 +41,7 @@ bot.on('message', (message) => {
   }
 })
 
-const handleMessage = (message) => {
+const handleMessage = (message : any) => {
   console.log(message)
   let commandString
   if (message.text.indexOf(' ') === -1) {
