@@ -1,8 +1,8 @@
 // @ts-ignore
 import * as SlackBot from 'slackbots'
-const CommandBase = require("./commandbase.js")
+import CommandBase from './commandbase'
 
-class AnonCommand extends CommandBase {
+class AnonCommand extends CommandBase implements AnonCommand {
   static aliases = [
     'anon',
     'secret',

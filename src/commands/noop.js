@@ -1,4 +1,4 @@
-const CommandBase = require("./commandbase.js")
+const CommandBase = require("./commandbase")
 
 class NoOpCommand extends CommandBase {
   execute() {
