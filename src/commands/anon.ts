@@ -2,7 +2,7 @@
 import * as SlackBot from 'slackbots'
 import CommandBase from './commandbase'
 
-class AnonCommand extends CommandBase implements AnonCommand {
+class AnonCommand extends CommandBase {
   static aliases = [
     'anon',
     'secret',
