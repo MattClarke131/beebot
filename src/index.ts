@@ -34,7 +34,8 @@ bot.on('error', (err : any) => {
 })
 
 bot.on('message', (message : any) => {
-  if(message.username === 'beebot') {
+  console.log(message)
+  if(message.subtype === 'bot_message') {
     return
   } else if(message.text && message.text[0] === COMMAND_CHARACTER) {
     handleMessage(message)
@@ -42,7 +43,6 @@ bot.on('message', (message : any) => {
 })
 
 const handleMessage = (message : any) => {
-  console.log(message)
   let commandString
   if (message.text.indexOf(' ') === -1) {
     commandString = message.text.slice(1)
