@@ -42,4 +42,4 @@ class ButtonCommand extends CommandBase {
   }
 }
 
-module.exports = ButtonCommand
+export default ButtonCommand

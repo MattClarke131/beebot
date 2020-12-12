@@ -93,4 +93,4 @@ class AnonCommand extends CommandBase {
   }
 }
 
-module.exports = AnonCommand
+export default AnonCommand

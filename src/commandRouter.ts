@@ -1,8 +1,8 @@
-const Anon = require("./commands/anon")
-const Button = require("./commands/button")
-const NoOpCommand = require("./commands/noop")
+import Anon from "./commands/anon"
+import Button from "./commands/button"
+import NoOpCommand from "./commands/noop"
 
-const commandRouter = (command) => {
+const commandRouter = (command: string) => {
   if (Anon.aliases.includes(command)) {
     return Anon
   } else if (Button.aliases.includes(command)) {

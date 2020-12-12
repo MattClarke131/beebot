@@ -6,4 +6,4 @@ class NoOpCommand extends CommandBase {
   }
 }
 
-module.exports = NoOpCommand
+export default NoOpCommand
