@@ -1,7 +1,8 @@
-const SlackBot = require('slackbots')
-const dotenv = require('dotenv')
-const fs = require('fs')
-const { commandRouter } = require('./commandRouter')
+// @ts-ignore
+import * as SlackBot from 'slackbots'
+import * as dotenv from 'dotenv'
+import * as fs from 'fs'
+import commandRouter from './commandRouter'
 
 dotenv.config()
 

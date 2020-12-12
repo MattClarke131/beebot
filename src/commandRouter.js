@@ -12,4 +12,4 @@ const commandRouter = (command) => {
   }
 }
 
-exports.commandRouter = commandRouter
+export default commandRouter
