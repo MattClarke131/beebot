@@ -1,14 +1,19 @@
-const CommandBase = require('./commandbase.js')
-const buttonData = require('../button.json')
-const fs = require('fs')
-const path = require('path')
+// @ts-ignore
+import * as SlackBot from 'slackbots'
+import CommandBase from './commandbase'
+import * as fs from 'fs'
 
-class ButtonCommand extends CommandBase {
+interface ButtonCommand {
+  newButtonCount: number,
+  user: string,
+}
+
+class ButtonCommand extends CommandBase implements ButtonCommand {
   static aliases = [
     'button',
   ]
 
-  constructor(message) {
+  constructor(message: any) {
     super(message)
 
     this.channelDestination = message.channel
@@ -17,22 +22,22 @@ class ButtonCommand extends CommandBase {
     this.outgoingMessage = `:radio_button: ${this.newButtonCount}`
   }
 
-  getNewButtonCount(user) {
-    const currentCount = JSON.parse(fs.readFileSync('./button.json'))[user]
+  getNewButtonCount(user: any) : number {
+    const currentCount = JSON.parse(fs.readFileSync('./button.json').toString())[user]
     return currentCount === undefined ? 1 : currentCount + 1
   }
 
-  updateButtonJson(user, newNumber) {
+  updateButtonJson(user: any, newNumber: any) {
     // path is relative to pwd
     // TODO Lean on something more robust
-    const rawData = fs.readFileSync('./button.json')
+    const rawData = fs.readFileSync('./button.json').toString()
     let buttonScores = JSON.parse(rawData)
     buttonScores[user] = newNumber
     const newRawData = JSON.stringify(buttonScores)
     fs.writeFileSync('./button.json', newRawData)
   }
 
-  execute(bot) {
+  execute(bot: SlackBot) {
     this.updateButtonJson(this.user, this.newButtonCount)
 
     bot.postMessage(
@@ -42,4 +47,4 @@ class ButtonCommand extends CommandBase {
   }
 }
 
-module.exports = ButtonCommand
+export default ButtonCommand
