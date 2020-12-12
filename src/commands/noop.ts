@@ -1,4 +1,4 @@
-const CommandBase = require("./commandbase")
+import CommandBase from './commandbase'
 
 class NoOpCommand extends CommandBase {
   execute() {
