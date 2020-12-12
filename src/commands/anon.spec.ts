@@ -1,4 +1,4 @@
-const AnonCommand = require('./anon.js')
+import AnonCommand from './anon.ts'
 const COMMAND = AnonCommand.aliases[0]
 const GOOD_CHANNEL = '#dev-beebot'
 const BAD_CHANNEL = '#bad_channel'

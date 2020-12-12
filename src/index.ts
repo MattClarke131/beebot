@@ -1,8 +1,8 @@
-const SlackBot = require('slackbots')
-const axios = require('axios')
-const dotenv = require('dotenv')
-const fs = require('fs')
-const { commandRouter } = require('./commandRouter')
+// @ts-ignore
+import * as SlackBot from 'slackbots'
+import * as dotenv from 'dotenv'
+import * as fs from 'fs'
+import commandRouter from './commandRouter'
 
 dotenv.config()
 
@@ -25,15 +25,15 @@ bot.on('start', () => {
   )
 })
 
-bot.on('error', (err) => {
+bot.on('error', (err : any) => {
   console.log(err)
-  fs.append('errors.log', err, (err) => {
+  fs.appendFile('../errors.log', err, (err : any) => {
     if (err) throw err;
     console.log('Saved error!')
   })
 })
 
-bot.on('message', (message) => {
+bot.on('message', (message : any) => {
   if(message.username === 'beebot') {
     return
   } else if(message.text && message.text[0] === COMMAND_CHARACTER) {
@@ -41,7 +41,7 @@ bot.on('message', (message) => {
   }
 })
 
-const handleMessage = (message) => {
+const handleMessage = (message : any) => {
   console.log(message)
   let commandString
   if (message.text.indexOf(' ') === -1) {
@@ -49,7 +49,7 @@ const handleMessage = (message) => {
   } else {
     commandString = message.text.slice(1, message.text.indexOf(' '))
   }
-  commandClass = commandRouter(commandString)
-  command = new commandClass(message)
+  const commandClass = commandRouter(commandString)
+  const command = new commandClass(message)
   command.execute(bot)
 }

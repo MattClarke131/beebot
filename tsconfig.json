@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "outDir": "./dist",
+    "allowJs": true
+  },
+  "include": [
+    "./src/**/*"
+  ]
+}

@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose()
-const sqlite = require('sqlite');
-const dotenv = require('dotenv')
+import * as sqlite from 'sqlite'
+import * as dotenv from 'dotenv'
 dotenv.config()
 
 const getDatabasePath = () => {

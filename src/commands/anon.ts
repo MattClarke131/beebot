@@ -1,4 +1,6 @@
-const CommandBase = require("./commandbase.js")
+// @ts-ignore
+import * as SlackBot from 'slackbots'
+import CommandBase from './commandbase'
 
 class AnonCommand extends CommandBase {
   static aliases = [
@@ -21,7 +23,7 @@ class AnonCommand extends CommandBase {
   NUMBER_OF_REQUIRED_ARGS = 1
   NUMBER_OF_OPTIONAL_ARGS = 1
 
-  constructor(message) {
+  constructor(message: any) {
     super(message)
 
     this.commandArgs = this.getCommandArgs(message.text)
@@ -29,7 +31,7 @@ class AnonCommand extends CommandBase {
     this.outgoingMessage = this.getOutgoingMessage(this.commandArgs)
   }
 
-  getCommandArgs(message) {
+  getCommandArgs(message: any) {
     if (AnonCommand.aliases.includes(message)) {
       return {
         'msg': '',
@@ -56,7 +58,7 @@ class AnonCommand extends CommandBase {
     }
   }
 
-  getChannelDestination(commandArgs, message) {
+  getChannelDestination(commandArgs: any, message: any) {
     if (commandArgs.msg === '' && commandArgs.channel === '') {
       return message.user
     } else if (commandArgs.msg === '') {
@@ -70,7 +72,7 @@ class AnonCommand extends CommandBase {
     }
   }
 
-  getOutgoingMessage(commandArgs) {
+  getOutgoingMessage(commandArgs: any) {
     if (commandArgs.msg === '' && commandArgs.channel === '') {
       return AnonCommand.USAGE_STRING
     } else if (commandArgs.msg === '') {
@@ -85,7 +87,7 @@ class AnonCommand extends CommandBase {
     }
   }
 
-  execute(bot) {
+  execute(bot: SlackBot) {
     bot.postMessage(
       this.channelDestination,
       this.outgoingMessage
@@ -93,4 +95,4 @@ class AnonCommand extends CommandBase {
   }
 }
 
-module.exports = AnonCommand
+export default AnonCommand
