@@ -3,7 +3,7 @@ import * as sqlite from 'sqlite'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-const getDatabasePath = () => {
+const getDatabasePath = (): string => {
   if (process.env.NODE_ENV === 'test') {
     return process.env.TEST_DB_PATH
   } else {
