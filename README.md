@@ -8,7 +8,8 @@
 Create a .env file in the project directory with the following contents:
 ```
 BOT_TOKEN=YOUR_BOT_TOKEN_HERE
-DB_DIR='absolute/path/to/your/db/dir'
+PROD_DB_PATH='absolute/path/to/your/db/dir'
+TEST_DB_PATH=absolute/path/to/your/db/dir
 ```
 #### Run in production
 > npm run start
