@@ -19,9 +19,11 @@ class AnonCommand extends CommandBase {
   ]
 
   static DEFAULT_CHANNEL = "dev-beebot"
-  static USAGE_STRING = "!anon (#channel) Anonymous message"
+  static USAGE_STRING : string = "!anon (#channel) Anonymous message"
   NUMBER_OF_REQUIRED_ARGS = 1
   NUMBER_OF_OPTIONAL_ARGS = 1
+
+  commandArgs: any
 
   constructor(message: any) {
     super(message)

@@ -1,4 +1,4 @@
-import AnonCommand from './anon.ts'
+import AnonCommand from './anon'
 const COMMAND = AnonCommand.aliases[0]
 const GOOD_CHANNEL = '#dev-beebot'
 const BAD_CHANNEL = '#bad_channel'
@@ -85,7 +85,7 @@ describe('getOutGoingMessage(commandArgs)', () => {
     const commandMessage = { text: messageText, user:USER }
     const anonCommand = new AnonCommand(commandMessage)
     test('outgoing message should be a usage string', () => {
-      expect(AnonCommand.outgoingMessage).toEqual(AnonCommand.USEAGE_STRING)
+      expect(anonCommand.outgoingMessage).toEqual(AnonCommand.USAGE_STRING)
     })
   })
   describe('when only a good channel is defined', () => {

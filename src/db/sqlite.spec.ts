@@ -5,9 +5,9 @@ dotenv.config()
 
 const getDatabasePath = (): string => {
   if (process.env.NODE_ENV === 'test') {
-    return process.env.TEST_DB_PATH
+    return process.env.TEST_DB_PATH || ''
   } else {
-    return process.env.PROD_DB_PATH
+    return process.env.PROD_DB_PATH || ''
   }
 }
 
@@ -53,7 +53,7 @@ const teardownTestDatabase = async () => {
   await testDatabase.close()
 }
 
-const writeBee = async (name) => {
+const writeBee = async (name: any) => {
   const db = await getDb()
   await db.run(
     `INSERT INTO ${TABLE} (name) VALUES (?)`,
@@ -62,7 +62,7 @@ const writeBee = async (name) => {
   await db.close()
 }
 
-const readBee = async (name) => {
+const readBee = async (name: any) => {
   const db = await getDb()
   const result = await db.get(`SELECT * FROM ${TABLE} WHERE name = ?`, name);
   await db.close()
@@ -70,7 +70,7 @@ const readBee = async (name) => {
   return result
 }
 
-const updateBee = async (oldName, newName) => {
+const updateBee = async (oldName: any, newName: any) => {
   const db = await getDb()
   await db.run(
     `UPDATE ${TABLE} SET name = ? WHERE name = ?`,
