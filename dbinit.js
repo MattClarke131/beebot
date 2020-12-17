@@ -1,5 +1,13 @@
 const sqlite3 = require('sqlite3').verbose();
 const sqlite = require('sqlite');
+const fs = require('fs');
+const path = require('path');
+
+const dbDir = __dirname + '/db'
+
+const createDbPath = () => {
+  fs.mkdirSync(dbDir, { recursive: true})
+}
 
 const dbinit = async () => {
   const db = await sqlite.open({
@@ -25,4 +33,5 @@ const dbinit = async () => {
   await db.close();
 }
 
+createDbPath();
 dbinit();
