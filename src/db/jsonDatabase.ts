@@ -3,9 +3,13 @@ import Database from './databaseInterface'
 
 const JSONDatabase: Database = {
   databasePath: './button.json',
-
-  save: () => {
-  }
+  getDb: () => {},
+  getRowFromId: (tableName: string, id: number) => {
+    return {}
+  },
+  save: () => {},
+  insertRow: () => {},
+  updateRow: () => {},
 }
 
 export default JSONDatabase
