@@ -42,7 +42,7 @@ describe('JSONDatabase', () => {
   })
 
   describe('insertRow', () => {
-    it('should add an entry to the testButton json', async () => {
+    it('should add an entry to testButton.json', async () => {
       const NEW_SLACK_ID = 'XYZ789'
       const NEW_COUNT = 9001
       const inputRow = { [NEW_SLACK_ID]: NEW_COUNT }
@@ -51,6 +51,17 @@ describe('JSONDatabase', () => {
 
       const actualRow = await JSONDatabase.getRowFromUserSlackId(NEW_SLACK_ID)
       expect(actualRow[NEW_SLACK_ID]).toBe(inputRow[NEW_SLACK_ID])
+    })
+  })
+
+  describe('updateRow', () => {
+    it('should update an entry in testButton.json', async () => {
+      const inputRow = {[USER_SLACK_ID]: BUTTON_COUNT + 1}
+
+      await JSONDatabase.updateRow(inputRow)
+      const actualRow = await JSONDatabase.getRowFromUserSlackId(USER_SLACK_ID)
+
+      expect(actualRow[USER_SLACK_ID]).toBe(inputRow[USER_SLACK_ID])
     })
   })
 })

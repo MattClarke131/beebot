@@ -24,7 +24,9 @@ const JSONDatabase: Database = {
     const newRawData = JSON.stringify(buttonScores)
     await fs.writeFileSync(this.databasePath, newRawData)
   },
-  updateRow: () => {},
+  updateRow: async function(row: {[key: string]: any}) {
+    await this.insertRow(row)
+  },
 }
 
 export default JSONDatabase

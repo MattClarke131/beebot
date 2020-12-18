@@ -4,7 +4,7 @@ interface Database {
   getRowFromId: (tableName: string, id: number) => any;
   save: () => void;
   insertRow: (row: {[key: string]: any}) => void;
-  updateRow: () => void;
+  updateRow: (row: {[key: string]: any}) => void;
   [others: string]: any;
 }
 
