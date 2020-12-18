@@ -14,7 +14,6 @@ const JSONDatabase: Database = {
 
     return row
   },
-  save: () => {},
   insertRow: async function(row: {[key: string]: any}) {
     const rawData: string | undefined = await fs.readFileSync(this.databasePath).toString()
     let buttonScores = JSON.parse(rawData)
