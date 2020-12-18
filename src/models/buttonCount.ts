@@ -6,7 +6,7 @@ class ButtonCount {
   count: number
   database: Database
 
-  constructor(userSlackId = '', count = 0, database: Database = _JSONDatabase) {
+  constructor(userSlackId = '', count = 0, database: Database = new _JSONDatabase) {
     this.userSlackId = userSlackId
     this.count = count
     this.database = database

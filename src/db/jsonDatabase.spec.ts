@@ -6,7 +6,6 @@ const USER_SLACK_ID = 'ABC123'
 const BUTTON_COUNT = 2
 
 beforeEach(() => {
-  JSONDatabase.databasePath = TEST_DB_PATH
   setupDb()
 })
 
@@ -18,38 +17,41 @@ const setupDb = async () => {
   const testData = JSON.stringify({
     [USER_SLACK_ID]: BUTTON_COUNT
   });
-  await fs.writeFileSync('./jsonDatabase/testButton.json', testData)
+  await fs.writeFileSync(TEST_DB_PATH, testData)
 }
 
 const teardownDb = async () => {
-  await fs.writeFileSync('./jsonDatabase/testButton.json', JSON.stringify({}))
+  await fs.writeFileSync(TEST_DB_PATH, JSON.stringify({}))
 }
 
 describe('JSONDatabase', () => {
   it('should exist', () => {
-    expect(typeof JSONDatabase).toBe('object')
+    expect(typeof JSONDatabase).toBe('function')
   })
 
   describe('getRowFromUserSlackId', () => {
     it('should exist', () => {
-      expect(typeof JSONDatabase.getRowFromUserSlackId).toBe('function')
+      const dbInstance = new JSONDatabase(TEST_DB_PATH)
+      expect(typeof dbInstance.getRowFromUserSlackId).toBe('function')
     })
     it('should read a row from the db', async () => {
       const expectedRow = { [USER_SLACK_ID]: BUTTON_COUNT }
-      const actualRow = await JSONDatabase.getRowFromUserSlackId(USER_SLACK_ID)
+      const dbInstance = new JSONDatabase(TEST_DB_PATH)
+      const actualRow = await dbInstance.getRowFromUserSlackId(USER_SLACK_ID)
       expect(actualRow[USER_SLACK_ID]).toBe(expectedRow[USER_SLACK_ID])
     })
   })
 
   describe('insertRow', () => {
-    it('should add an entry to testButton.json', async () => {
+    it(TEST_DB_PATH, async () => {
       const NEW_SLACK_ID = 'XYZ789'
       const NEW_COUNT = 9001
       const inputRow = { [NEW_SLACK_ID]: NEW_COUNT }
 
-      await JSONDatabase.insertRow(inputRow)
+      const dbInstance = new JSONDatabase(TEST_DB_PATH)
+      await dbInstance.insertRow(inputRow)
 
-      const actualRow = await JSONDatabase.getRowFromUserSlackId(NEW_SLACK_ID)
+      const actualRow = await dbInstance.getRowFromUserSlackId(NEW_SLACK_ID)
       expect(actualRow[NEW_SLACK_ID]).toBe(inputRow[NEW_SLACK_ID])
     })
   })

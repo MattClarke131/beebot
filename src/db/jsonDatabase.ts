@@ -1,20 +1,24 @@
 import Database from './databaseInterface'
 // @ts-ignore
 import * as fs from 'fs'
+const DB_PATH = './button.json'
 
-const JSONDatabase: Database = {
-  databasePath: './button.json',
-  getDb: () => {},
-  getRowFromId: (tableName: string, id: number) => {
+class JSONDatabase implements Database {
+  databasePath: string
+  constructor(dbPath: string = DB_PATH) {
+    this.databasePath = dbPath
+  }
+  getDb() {}
+  getRowFromId(tableName: string, id: number) {
     return {}
-  },
-  getRowFromUserSlackId: async function(userSlackId: string) {
+  }
+  async getRowFromUserSlackId(userSlackId: string) {
     const rawData = await fs.readFileSync(this.databasePath)
     const row = JSON.parse(rawData.toString())
 
     return row
-  },
-  insertRow: async function(row: {[key: string]: any}) {
+  }
+  async insertRow(row: {[key: string]: any}) {
     const rawData: string | undefined = await fs.readFileSync(this.databasePath).toString()
     let buttonScores = JSON.parse(rawData)
     const user = Object.keys(row)[0]
@@ -22,10 +26,10 @@ const JSONDatabase: Database = {
     buttonScores[user] = count
     const newRawData = JSON.stringify(buttonScores)
     await fs.writeFileSync(this.databasePath, newRawData)
-  },
-  updateRow: async function(row: {[key: string]: any}) {
+  }
+  async updateRow(row: {[key: string]: any}) {
     await this.insertRow(row)
-  },
+  }
 }
 
 export default JSONDatabase
