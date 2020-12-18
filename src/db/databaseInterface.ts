@@ -3,7 +3,7 @@ interface Database {
   getDb: () => any;
   getRowFromId: (tableName: string, id: number) => any;
   save: () => void;
-  insertRow: () => void;
+  insertRow: (row: {[key: string]: any}) => void;
   updateRow: () => void;
   [others: string]: any;
 }
