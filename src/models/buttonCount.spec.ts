@@ -1,5 +1,5 @@
 import ButtonCount from './buttonCount'
-import mockDatabase from '../db/mockDatabase'
+import MockDatabase from '../db/mockDatabase'
 
 const USER_SLACK_ID = 'ABC'
 const COUNT = 5
@@ -11,6 +11,7 @@ describe('ButtonCount', () => {
 
   describe('constructor', () => {
     it('should take a database as an argument', () => {
+      const mockDatabase = new MockDatabase()
       const instance = new ButtonCount(undefined, undefined, mockDatabase)
       expect(instance.database).toBe(mockDatabase)
     })

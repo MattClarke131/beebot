@@ -1,14 +1,19 @@
 import Database from './databaseInterface'
 
-const mockDatabase: Database = {
-  databasePath: '',
-  getDb: () => {},
-  getRowFromId: (tableName: string, id: number) => {
+class MockDatabase implements Database {
+  databasePath: string
+
+  constructor() {
+    this.databasePath = ''
+  }
+
+  getDb() {}
+  getRowFromId(tableName: string, id: number) {
     return {}
-  },
-  save: () => {},
-  insertRow: () => {},
-  updateRow: () => {},
+  }
+  save() {}
+  insertRow() {}
+  updateRow() {}
 }
 
-export default mockDatabase
+export default MockDatabase
