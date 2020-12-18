@@ -1,5 +1,6 @@
 .env
 button.json
+testButton.json
 errors.log
 .*.swp
 .*.swo
