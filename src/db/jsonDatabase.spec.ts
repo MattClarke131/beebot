@@ -5,12 +5,12 @@ const TEST_DB_PATH = './jsonDatabase/testButton.json'
 const USER_SLACK_ID = 'ABC123'
 const BUTTON_COUNT = 2
 
-beforeAll(() => {
+beforeEach(() => {
   JSONDatabase.databasePath = TEST_DB_PATH
   setupDb()
 })
 
-afterAll(() => {
+afterEach(() => {
   teardownDb()
 })
 
@@ -18,11 +18,11 @@ const setupDb = async () => {
   const testData = JSON.stringify({
     [USER_SLACK_ID]: BUTTON_COUNT
   });
-  fs.writeFileSync('./jsonDatabase/testButton.json', testData)
+  await fs.writeFileSync('./jsonDatabase/testButton.json', testData)
 }
 
 const teardownDb = async () => {
-  fs.writeFileSync('./jsonDatabase/testButton.json', JSON.stringify({}))
+  await fs.writeFileSync('./jsonDatabase/testButton.json', JSON.stringify({}))
 }
 
 describe('JSONDatabase', () => {
@@ -38,6 +38,19 @@ describe('JSONDatabase', () => {
       const expectedRow = { [USER_SLACK_ID]: BUTTON_COUNT }
       const actualRow = await JSONDatabase.getRowFromUserSlackId(USER_SLACK_ID)
       expect(actualRow[USER_SLACK_ID]).toBe(expectedRow[USER_SLACK_ID])
+    })
+  })
+
+  describe('insertRow', () => {
+    it('should add an entry to the testButton json', async () => {
+      const NEW_SLACK_ID = 'XYZ789'
+      const NEW_COUNT = 9001
+      const inputRow = { [NEW_SLACK_ID]: NEW_COUNT }
+
+      await JSONDatabase.insertRow(inputRow)
+
+      const actualRow = await JSONDatabase.getRowFromUserSlackId(NEW_SLACK_ID)
+      expect(actualRow[NEW_SLACK_ID]).toBe(inputRow[NEW_SLACK_ID])
     })
   })
 })
