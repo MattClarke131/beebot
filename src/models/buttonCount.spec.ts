@@ -1,8 +1,8 @@
 import ButtonCount from './buttonCount'
+import mockDatabase from '../db/mockDatabase'
 
 const USER_SLACK_ID = 'ABC'
 const COUNT = 5
-const mockDatabase = {}
 
 describe('ButtonCount', () => {
   it('should exist', () => {
