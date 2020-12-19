@@ -25,17 +25,18 @@ class ButtonCount {
     this.tableName = TABLE_NAME
   }
 
-  static async getFromUserSlackId(userSlackId: string, database: Database = new _JSONDatabase) {
+  static async getInstanceFromUserSlackId(userSlackId: string, database: Database = new _JSONDatabase) {
     const rows = await database.getRowsFromColVal(TABLE_NAME, 'user_slack_id', userSlackId)
     const row = rows[0]
     return new ButtonCount(row, database)
   }
 
   async save() {
+    const row = this._createRowHash()
     if(this.id === 0) {
-      this.database.insertRow()
+      this.database.insertRow(this.tableName, row)
     } else {
-      this.database.updateRow()
+      this.database.updateRow(this.tableName, row)
     }
   }
 

@@ -2,6 +2,7 @@ import JSONDatabase from './jsonDatabase'
 import * as fs from 'fs'
 
 const TEST_DB_PATH = './jsonDatabase/testButton.json'
+const TABLE_NAME = 'button_count'
 const USER_SLACK_ID = 'ABC123'
 const BUTTON_COUNT = 2
 
@@ -49,7 +50,7 @@ describe('JSONDatabase', () => {
       const inputRow = { [NEW_SLACK_ID]: NEW_COUNT }
 
       const dbInstance = new JSONDatabase(TEST_DB_PATH)
-      await dbInstance.insertRow(inputRow)
+      await dbInstance.insertRow(TABLE_NAME, inputRow)
 
       const actualRow = await dbInstance.getRowFromUserSlackId(NEW_SLACK_ID)
       expect(actualRow[NEW_SLACK_ID]).toBe(inputRow[NEW_SLACK_ID])
@@ -61,7 +62,7 @@ describe('JSONDatabase', () => {
       const inputRow = {[USER_SLACK_ID]: BUTTON_COUNT + 1}
 
       const dbInstance = new JSONDatabase(TEST_DB_PATH)
-      await dbInstance.updateRow(inputRow)
+      await dbInstance.updateRow(TABLE_NAME, inputRow)
       const actualRow = await dbInstance.getRowFromUserSlackId(USER_SLACK_ID)
 
       expect(actualRow[USER_SLACK_ID]).toBe(inputRow[USER_SLACK_ID])

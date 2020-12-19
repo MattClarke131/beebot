@@ -21,7 +21,7 @@ class JSONDatabase implements Database {
 
     return row
   }
-  async insertRow(row: {[key: string]: any}) {
+  async insertRow(tableName: string, row: {[key: string]: any}) {
     const rawData: string | undefined = await fs.readFileSync(this.databasePath).toString()
     let buttonScores = JSON.parse(rawData)
     const user = Object.keys(row)[0]
@@ -30,8 +30,8 @@ class JSONDatabase implements Database {
     const newRawData = JSON.stringify(buttonScores)
     await fs.writeFileSync(this.databasePath, newRawData)
   }
-  async updateRow(row: {[key: string]: any}) {
-    await this.insertRow(row)
+  async updateRow(tableName: string, row: {[key: string]: any}) {
+    await this.insertRow(tableName, row)
   }
   async getRowsFromColVal(tableName: string, col: string, val: any) {
     const rawData: string | undefined = await fs.readFileSync(this.databasePath).toString()

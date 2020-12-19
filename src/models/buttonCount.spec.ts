@@ -53,7 +53,7 @@ describe('ButtonCount', () => {
     })
   })
 
-  describe('static getFromUserSlackId()', () => {
+  describe('static getInstanceFromUserSlackId()', () => {
     it('should return an instance from the db', async () => {
       let mockDatabase = new MockDatabase()
       const mockRows = [ {
@@ -61,7 +61,7 @@ describe('ButtonCount', () => {
         count: COUNT,
         } ]
       mockDatabase.getRowsFromColVal = () => { return mockRows }
-      const instance = await ButtonCount.getFromUserSlackId(USER_SLACK_ID, mockDatabase)
+      const instance = await ButtonCount.getInstanceFromUserSlackId(USER_SLACK_ID, mockDatabase)
       expect(instance.count).toBe(COUNT)
     })
   })
@@ -92,7 +92,7 @@ describe('ButtonCount', () => {
         } ]
       mockDatabase.getRowsFromColVal = () => { return mockRows }
       mockDatabase.updateRow = jest.fn(() => {})
-      const instance = await ButtonCount.getFromUserSlackId(USER_SLACK_ID, mockDatabase)
+      const instance = await ButtonCount.getInstanceFromUserSlackId(USER_SLACK_ID, mockDatabase)
 
       instance.save()
 
