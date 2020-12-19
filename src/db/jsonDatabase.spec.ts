@@ -4,6 +4,7 @@ import * as fs from 'fs'
 const TEST_DB_PATH = './jsonDatabase/testButton.json'
 const TABLE_NAME = 'button_count'
 const USER_SLACK_ID = 'ABC123'
+const USER_SLACK_ID_2 = 'XYZ789'
 const BUTTON_COUNT = 2
 
 beforeEach(() => {
@@ -40,6 +41,13 @@ describe('JSONDatabase', () => {
       const dbInstance = new JSONDatabase(TEST_DB_PATH)
       const actualRow = await dbInstance.getRowFromUserSlackId(USER_SLACK_ID)
       expect(actualRow[USER_SLACK_ID]).toBe(expectedRow[USER_SLACK_ID])
+    })
+
+    it('should return an empy row if none is found', async () => {
+      const expectedRow = {}
+      const dbInstance = new JSONDatabase(TEST_DB_PATH)
+      const actualRow = await dbInstance.getRowFromUserSlackId(USER_SLACK_ID_2)
+      expect(actualRow).toStrictEqual(expectedRow)
     })
   })
 

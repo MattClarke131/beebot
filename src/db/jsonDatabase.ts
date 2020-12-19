@@ -15,11 +15,13 @@ class JSONDatabase implements Database {
   async getRowFromUserSlackId(userSlackId: string) {
     const rawData = await fs.readFileSync(this.databasePath)
     let buttonScores = JSON.parse(rawData.toString())
-    const row = {
-      [userSlackId]: buttonScores[userSlackId]
+    if(buttonScores[userSlackId] !== undefined) {
+      return {
+        [userSlackId]: buttonScores[userSlackId]
+      }
+    } else {
+      return { }
     }
-
-    return row
   }
   async insertRow(tableName: string, row: {[key: string]: any}) {
     const rawData: string | undefined = await fs.readFileSync(this.databasePath).toString()
