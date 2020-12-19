@@ -2,6 +2,7 @@
 import * as SlackBot from 'slackbots'
 import * as dotenv from 'dotenv'
 import * as fs from 'fs'
+
 import commandRouter from './commandRouter'
 
 dotenv.config()

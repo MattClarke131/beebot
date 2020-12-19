@@ -1,7 +1,9 @@
 // @ts-ignore
 import * as SlackBot from 'slackbots'
-import CommandBase from './commandbase'
 import * as fs from 'fs'
+import CommandBase from './commandbase'
+import Database from '../db/databaseInterface'
+import JSONDatabase from'../db/jsonDatabase'
 
 interface ButtonCommand {
   newButtonCount: number,
@@ -13,7 +15,7 @@ class ButtonCommand extends CommandBase implements ButtonCommand {
     'button',
   ]
 
-  constructor(message: any) {
+  constructor(message: any, database: Database = new JSONDatabase) {
     super(message)
 
     this.channelDestination = message.channel
