@@ -31,6 +31,14 @@ class ButtonCount {
     return new ButtonCount(row, database)
   }
 
+  async save() {
+    if(this.id === 0) {
+      this.database.insertRow()
+    } else {
+      this.database.updateRow()
+    }
+  }
+
   increment() : void {
     this.count++
   }

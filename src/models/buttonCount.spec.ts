@@ -65,4 +65,38 @@ describe('ButtonCount', () => {
       expect(instance.count).toBe(COUNT)
     })
   })
+
+  describe('save()', () => {
+    it('should exist', () => {
+      const instance = new ButtonCount
+      expect(typeof instance.save).toBe('function')
+    })
+
+    it('should call database.insertRow()', async () => {
+      const params = { userSlackId: USER_SLACK_ID }
+      let mockDatabase = new MockDatabase()
+      mockDatabase.insertRow = jest.fn(() => {})
+      const instance = new ButtonCount(params, mockDatabase)
+
+      instance.save()
+
+      expect(mockDatabase.insertRow).toHaveBeenCalled()
+    })
+
+    it('should call database.updateRow()', async () => {
+      let mockDatabase = new MockDatabase()
+      const mockRows = [ {
+        id: 1,
+        user_slack_id: USER_SLACK_ID,
+        count: COUNT,
+        } ]
+      mockDatabase.getRowsFromColVal = () => { return mockRows }
+      mockDatabase.updateRow = jest.fn(() => {})
+      const instance = await ButtonCount.getFromUserSlackId(USER_SLACK_ID, mockDatabase)
+
+      instance.save()
+
+      expect(mockDatabase.updateRow).toHaveBeenCalled()
+    })
+  })
 })
