@@ -99,4 +99,22 @@ describe('ButtonCount', () => {
       expect(mockDatabase.updateRow).toHaveBeenCalled()
     })
   })
+
+  describe('_createRowHash', () => {
+    it('should exist', () => {
+      const instance = new ButtonCount
+      expect(typeof instance._createRowHash).toBe('function')
+    })
+
+    it('should return a hash representing a database row', () => {
+      const params = {}
+      const mockDatabase = new MockDatabase()
+      const instance = new ButtonCount(params, mockDatabase)
+      const result = instance._createRowHash()
+
+      expect(result.id).toBe(0)
+      expect(result.user_slack_id).toBe('')
+      expect(result.count).toBe(0)
+    })
+  })
 })

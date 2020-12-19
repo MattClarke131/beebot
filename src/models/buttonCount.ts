@@ -40,6 +40,14 @@ class ButtonCount {
     }
   }
 
+  _createRowHash() {
+    return {
+      id: this.id,
+      user_slack_id: this.userSlackId,
+      count: this.count,
+    }
+  }
+
   increment() : void {
     this.count++
   }
