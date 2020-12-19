@@ -60,10 +60,25 @@ describe('JSONDatabase', () => {
     it('should update an entry in testButton.json', async () => {
       const inputRow = {[USER_SLACK_ID]: BUTTON_COUNT + 1}
 
-      await JSONDatabase.updateRow(inputRow)
-      const actualRow = await JSONDatabase.getRowFromUserSlackId(USER_SLACK_ID)
+      const dbInstance = new JSONDatabase(TEST_DB_PATH)
+      await dbInstance.updateRow(inputRow)
+      const actualRow = await dbInstance.getRowFromUserSlackId(USER_SLACK_ID)
 
       expect(actualRow[USER_SLACK_ID]).toBe(inputRow[USER_SLACK_ID])
+    })
+  })
+
+  describe('getRowsFromColVal', () => {
+    it('should exist', () => {
+      const dbInstance = new JSONDatabase(TEST_DB_PATH)
+      expect(typeof dbInstance.getRowsFromColVal).toBe('function')
+    })
+
+    it('should return an array of rows', async () => {
+      const dbInstance = new JSONDatabase(TEST_DB_PATH)
+      const result = await dbInstance.getRowsFromColVal('button_count', 'slack_user_id', USER_SLACK_ID)
+
+      expect(result[0][USER_SLACK_ID]).toBe(BUTTON_COUNT)
     })
   })
 })

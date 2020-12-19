@@ -11,6 +11,9 @@ class MockDatabase implements Database {
   getRowFromId(tableName: string, id: number) {
     return {}
   }
+  getRowsFromColVal(tableName: string, col: string, val: any) {
+    return [{}]
+}
   save() {}
   insertRow() {}
   updateRow() {}
