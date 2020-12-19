@@ -9,7 +9,7 @@ describe('ButtonCount', () => {
     expect(typeof ButtonCount).toBe('function')
   })
 
-  describe('constructor', () => {
+  describe('constructor()', () => {
     it('should take a database as an argument', () => {
       const mockDatabase = new MockDatabase()
       const instance = new ButtonCount(undefined, undefined, mockDatabase)
@@ -45,10 +45,12 @@ describe('ButtonCount', () => {
     })
   })
 
-  describe('static getFromUserSlackId', () => {
-    it('should return an instance from the db', () => {
-      const instance = new ButtonCount(undefined, undefined, mockDatabase)
-      expect(instance.database).toBe(mockDatabase)
+  describe('static getFromUserSlackId()', () => {
+    it('should return an instance from the db', async () => {
+      let mockDatabase = new MockDatabase()
+      mockDatabase.getRowsFromColVal = () => { return [{[USER_SLACK_ID]: COUNT}] }
+      const instance = await ButtonCount.getFromUserSlackId(USER_SLACK_ID, mockDatabase)
+      expect(instance[USER_SLACK_ID]).toBe(COUNT)
     })
   })
 })
