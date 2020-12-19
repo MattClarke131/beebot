@@ -10,29 +10,37 @@ describe('ButtonCount', () => {
   })
 
   describe('constructor()', () => {
-    it('should take a database as an argument', () => {
-      const mockDatabase = new MockDatabase()
-      const instance = new ButtonCount(undefined, undefined, mockDatabase)
-      expect(instance.database).toBe(mockDatabase)
+    describe('parameter: params', () => {
+      it('should accept a userSlackId key', () => {
+        const params = { userSlackId: USER_SLACK_ID }
+        const instance = new ButtonCount(params)
+        expect(instance.userSlackId).toBe(USER_SLACK_ID)
+      })
+
+      it('should accept a count key', () => {
+        const params = { count: COUNT }
+        const instance = new ButtonCount(params)
+        expect(instance.count).toBe(COUNT)
+      })
     })
 
-    it('should take userSlackId as an argument', () => {
-      const instance = new ButtonCount(USER_SLACK_ID)
-      expect(instance.userSlackId).toBe(USER_SLACK_ID)
+    describe('parameter: database', () => {
+      it('should take a database as an argument', () => {
+        const mockDatabase = new MockDatabase()
+        const instance = new ButtonCount(undefined, mockDatabase)
+        expect(instance.database).toBe(mockDatabase)
+      })
     })
+
 
     it('should set default userSlackId to an empty string', () => {
-      const instance = new ButtonCount(undefined)
+      const instance = new ButtonCount()
       expect(instance.userSlackId).toBe('')
     })
 
-    it('should take count as an argument', () => {
-      const instance = new ButtonCount(USER_SLACK_ID, COUNT)
-      expect(instance.count).toBe(COUNT)
-    })
-
     it('should set default count to 0', () => {
-      const instance = new ButtonCount(USER_SLACK_ID, undefined)
+      const params = { userSlackId: USER_SLACK_ID }
+      const instance = new ButtonCount(params, undefined)
       expect(instance.count).toBe(0)
     })
   })
@@ -48,9 +56,13 @@ describe('ButtonCount', () => {
   describe('static getFromUserSlackId()', () => {
     it('should return an instance from the db', async () => {
       let mockDatabase = new MockDatabase()
-      mockDatabase.getRowsFromColVal = () => { return [{[USER_SLACK_ID]: COUNT}] }
+      const mockRows = [ {
+        user_slack_id: USER_SLACK_ID,
+        count: COUNT,
+        } ]
+      mockDatabase.getRowsFromColVal = () => { return mockRows }
       const instance = await ButtonCount.getFromUserSlackId(USER_SLACK_ID, mockDatabase)
-      expect(instance[USER_SLACK_ID]).toBe(COUNT)
+      expect(instance.count).toBe(COUNT)
     })
   })
 })
