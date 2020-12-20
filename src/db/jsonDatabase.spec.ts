@@ -64,7 +64,7 @@ describe('JSONDatabase', () => {
       const NEW_SLACK_ID = 'XYZ789'
       const NEW_COUNT = 9001
       const inputRow = {
-        id: 2,
+        id: 0,
         user_slack_id: NEW_SLACK_ID,
         count: NEW_COUNT,
       }
@@ -74,6 +74,7 @@ describe('JSONDatabase', () => {
 
       const actualRow = await dbInstance.getRowFromUserSlackId(NEW_SLACK_ID)
       expect(actualRow.user_slack_id).toBe(inputRow.user_slack_id)
+      expect(actualRow.id).toBe(2)
     })
   })
 

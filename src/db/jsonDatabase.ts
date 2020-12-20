@@ -25,7 +25,7 @@ class JSONDatabase implements Database {
     const rawData: string | undefined = await fs.readFileSync(this.databasePath).toString()
     let buttonScores = JSON.parse(rawData)
     const newRow = {
-      id: row.id,
+      id: buttonScores.length+1,
       user_slack_id: row.user_slack_id,
       count: row.count
     }
