@@ -19,7 +19,7 @@ class ButtonCount {
 
   constructor(params: Params = {}, database: Database = new _JSONDatabase) {
     this.id = params.id || 0
-    this.userSlackId = params.userSlackId || ''
+    this.userSlackId = params.user_slack_id || ''
     this.count = params.count || 0
     this.database = database
     this.tableName = TABLE_NAME

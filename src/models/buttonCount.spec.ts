@@ -12,7 +12,7 @@ describe('ButtonCount', () => {
   describe('constructor()', () => {
     describe('parameter: params', () => {
       it('should accept a userSlackId key', () => {
-        const params = { userSlackId: USER_SLACK_ID }
+        const params = { user_slack_id: USER_SLACK_ID }
         const instance = new ButtonCount(params)
         expect(instance.userSlackId).toBe(USER_SLACK_ID)
       })
@@ -57,6 +57,7 @@ describe('ButtonCount', () => {
     it('should return an instance from the db', async () => {
       let mockDatabase = new MockDatabase()
       const mockRows = [ {
+        id: 1,
         user_slack_id: USER_SLACK_ID,
         count: COUNT,
         } ]
@@ -73,7 +74,11 @@ describe('ButtonCount', () => {
     })
 
     it('should call database.insertRow()', async () => {
-      const params = { userSlackId: USER_SLACK_ID }
+      const params = {
+        id: 0,
+        user_slack_id: USER_SLACK_ID,
+        count: COUNT,
+      }
       let mockDatabase = new MockDatabase()
       mockDatabase.insertRow = jest.fn(() => {})
       const instance = new ButtonCount(params, mockDatabase)

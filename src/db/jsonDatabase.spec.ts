@@ -4,6 +4,7 @@ import * as fs from 'fs'
 const TEST_DB_PATH = './jsonDatabase/testButton.json'
 const TABLE_NAME = 'button_count'
 const USER_SLACK_ID = 'ABC123'
+const USER_SLACK_ID_2 = 'XYZ789'
 const BUTTON_COUNT = 2
 
 beforeEach(() => {
@@ -15,14 +16,18 @@ afterEach(() => {
 })
 
 const setupDb = async () => {
-  const testData = JSON.stringify({
-    [USER_SLACK_ID]: BUTTON_COUNT
-  });
+  const testData = JSON.stringify([
+    {
+      id: 1,
+      user_slack_id: USER_SLACK_ID,
+      count: BUTTON_COUNT,
+    }
+  ]);
   await fs.writeFileSync(TEST_DB_PATH, testData)
 }
 
 const teardownDb = async () => {
-  await fs.writeFileSync(TEST_DB_PATH, JSON.stringify({}))
+  await fs.writeFileSync(TEST_DB_PATH, JSON.stringify([]))
 }
 
 describe('JSONDatabase', () => {
@@ -36,10 +41,21 @@ describe('JSONDatabase', () => {
       expect(typeof dbInstance.getRowFromUserSlackId).toBe('function')
     })
     it('should read a row from the db', async () => {
-      const expectedRow = { [USER_SLACK_ID]: BUTTON_COUNT }
+      const expectedRow = {
+        id: 1,
+        user_slack_id: USER_SLACK_ID,
+        count: BUTTON_COUNT,
+      }
       const dbInstance = new JSONDatabase(TEST_DB_PATH)
       const actualRow = await dbInstance.getRowFromUserSlackId(USER_SLACK_ID)
-      expect(actualRow[USER_SLACK_ID]).toBe(expectedRow[USER_SLACK_ID])
+      expect(actualRow.user_slack_id).toBe(expectedRow.user_slack_id)
+    })
+
+    it('should return an empy row if none is found', async () => {
+      const expectedRow = {}
+      const dbInstance = new JSONDatabase(TEST_DB_PATH)
+      const actualRow = await dbInstance.getRowFromUserSlackId(USER_SLACK_ID_2)
+      expect(actualRow).toStrictEqual(expectedRow)
     })
   })
 
@@ -47,25 +63,34 @@ describe('JSONDatabase', () => {
     it('should add an entry to testButton.json', async () => {
       const NEW_SLACK_ID = 'XYZ789'
       const NEW_COUNT = 9001
-      const inputRow = { [NEW_SLACK_ID]: NEW_COUNT }
+      const inputRow = {
+        id: 0,
+        user_slack_id: NEW_SLACK_ID,
+        count: NEW_COUNT,
+      }
 
       const dbInstance = new JSONDatabase(TEST_DB_PATH)
       await dbInstance.insertRow(TABLE_NAME, inputRow)
 
       const actualRow = await dbInstance.getRowFromUserSlackId(NEW_SLACK_ID)
-      expect(actualRow[NEW_SLACK_ID]).toBe(inputRow[NEW_SLACK_ID])
+      expect(actualRow.user_slack_id).toBe(inputRow.user_slack_id)
+      expect(actualRow.id).toBe(2)
     })
   })
 
   describe('updateRow', () => {
     it('should update an entry in testButton.json', async () => {
-      const inputRow = {[USER_SLACK_ID]: BUTTON_COUNT + 1}
+      const inputRow = {
+        id: 1,
+        user_slack_id: USER_SLACK_ID,
+        count: BUTTON_COUNT + 1,
+      }
 
       const dbInstance = new JSONDatabase(TEST_DB_PATH)
       await dbInstance.updateRow(TABLE_NAME, inputRow)
       const actualRow = await dbInstance.getRowFromUserSlackId(USER_SLACK_ID)
 
-      expect(actualRow[USER_SLACK_ID]).toBe(inputRow[USER_SLACK_ID])
+      expect(actualRow.user_slack_id).toBe(inputRow.user_slack_id)
     })
   })
 
@@ -79,7 +104,7 @@ describe('JSONDatabase', () => {
       const dbInstance = new JSONDatabase(TEST_DB_PATH)
       const result = await dbInstance.getRowsFromColVal('button_count', 'slack_user_id', USER_SLACK_ID)
 
-      expect(result[0][USER_SLACK_ID]).toBe(BUTTON_COUNT)
+      expect(result[0].count).toBe(BUTTON_COUNT)
     })
   })
 })
