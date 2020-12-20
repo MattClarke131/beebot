@@ -1,9 +1,10 @@
 // @ts-ignore
 import * as SlackBot from 'slackbots'
-import * as fs from 'fs'
+
 import CommandBase from './commandbase'
 import Database from '../db/databaseInterface'
 import JSONDatabase from'../db/jsonDatabase'
+import ButtonCount from'../models/buttonCount'
 
 interface ButtonCommand {
   newButtonCount: number,
@@ -15,36 +16,23 @@ class ButtonCommand extends CommandBase implements ButtonCommand {
     'button',
   ]
 
+  userSlackId: string
+
   constructor(message: any, database: Database = new JSONDatabase) {
     super(message)
 
     this.channelDestination = message.channel
-    this.user = message.user
-    this.newButtonCount = this.getNewButtonCount(this.user)
-    this.outgoingMessage = `:radio_button: ${this.newButtonCount}`
+    this.userSlackId = message.user
   }
 
-  getNewButtonCount(user: any) : number {
-    const currentCount = JSON.parse(fs.readFileSync('./jsonDatabase/button.json').toString())[user]
-    return currentCount === undefined ? 1 : currentCount + 1
-  }
-
-  updateButtonJson(user: any, newNumber: any) {
-    // path is relative to pwd
-    // TODO Lean on something more robust
-    const rawData = fs.readFileSync('./jsonDatabase/button.json').toString()
-    let buttonScores = JSON.parse(rawData)
-    buttonScores[user] = newNumber
-    const newRawData = JSON.stringify(buttonScores)
-    fs.writeFileSync('./jsonDatabase/button.json', newRawData)
-  }
-
-  execute(bot: SlackBot) {
-    this.updateButtonJson(this.user, this.newButtonCount)
-
+  async execute(bot: SlackBot) {
+    const button = await ButtonCount.getInstanceFromUserSlackId(this.userSlackId)
+    button.increment()
+    await button.save()
+    const outgoingMessage = `:radio_button: ${button.count}`
     bot.postMessage(
       this.channelDestination,
-      this.outgoingMessage,
+      outgoingMessage
     )
   }
 }
