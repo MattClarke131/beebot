@@ -3,7 +3,7 @@ import Database from './databaseInterface'
 const DB_PATH = './sqlDatabase/beebot.sqlite'
 
 class SQLDatabase implements Database {
- databasePath: string
+  databasePath: string
 
   constructor(databasePath: string = DB_PATH) {
     this.databasePath = databasePath
