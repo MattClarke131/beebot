@@ -49,4 +49,11 @@ describe('SQLDatabase', () => {
   it('should exist', () => {
     expect(typeof SQLDatabase).toBe('function')
   })
+
+  describe('constructor', () => {
+    it('should set an instance property for a database connection', async () => {
+      const db = new SQLDatabase(process.env.TEST_DB_PATH ?? undefined)
+      expect(db.connection instanceof Promise).toBe(true)
+    })
+  })
 })
