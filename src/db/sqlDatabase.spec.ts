@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 const TABLE_NAME = 'test_table'
+const ROW_ID = 1
 
 import SQLDatabase from './sqlDatabase'
 
@@ -50,10 +51,24 @@ describe('SQLDatabase', () => {
     expect(typeof SQLDatabase).toBe('function')
   })
 
-  describe('constructor', () => {
+  describe('constructor()', () => {
     it('should set an instance property for a database connection', async () => {
-      const db = new SQLDatabase(process.env.TEST_DB_PATH ?? undefined)
+      const db = new SQLDatabase(process.env.TEST_DB_PATH ?? '')
       expect(db.connection instanceof Promise).toBe(true)
+    })
+  })
+
+  describe('insertRow()', () => {
+    it('should insert a row into the database', async () => {
+      const db = new SQLDatabase(process.env.TEST_DB_PATH ?? '')
+      const inputRow = {
+        col_1: 'hi',
+        col_2: 2
+      }
+      await db.insertRow(TABLE_NAME, inputRow)
+      const outputRow = await db.getRowFromId(TABLE_NAME, ROW_ID)
+
+      expect(outputRow.id).toBe(ROW_ID)
     })
   })
 })
