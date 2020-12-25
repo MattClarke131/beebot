@@ -42,10 +42,10 @@ class JSONDatabase implements Database {
 
     await fs.writeFileSync(this.databasePath, newRawData)
   }
-  async getRowsFromColVal(tableName: string, col: string, val: any) {
+  async getRowFromColVal(tableName: string, col: string, val: any) {
     const rawData: string | undefined = await fs.readFileSync(this.databasePath).toString()
-    const rows = JSON.parse(rawData)
-    return rows
+    const row = JSON.parse(rawData)
+    return row[0]
   }
 }
 

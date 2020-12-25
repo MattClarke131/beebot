@@ -22,7 +22,7 @@ class SQLDatabase implements Database {
 
   async getRowFromId(tableName: string, id: number) :Promise<any> {
     const connection = await this.getConnection()
-    const row =  await connection.get(
+    const row = await connection.get(
       `SELECT * FROM ${tableName} WHERE ID = ?`,
       id
     )
@@ -31,8 +31,17 @@ class SQLDatabase implements Database {
     return row
   }
 
-  getRowsFromColVal(tableName: string, col: string, val: any) {
-    return []
+  // if multiple values exist, only one will be returned
+  async getRowFromColVal(tableName: string, col: string, val: any) {
+    const connection = await this.getConnection()
+    const rows = await connection.get(
+      `SELECT * FROM ${tableName} WHERE ${col} = ?`,
+      val
+    )
+
+    connection.close()
+
+    return rows
   }
 
   async insertRow(tableName: string, row: {[key: string]: any}) {

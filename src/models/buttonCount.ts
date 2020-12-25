@@ -26,8 +26,7 @@ class ButtonCount {
   }
 
   static async getInstanceFromUserSlackId(userSlackId: string, database: Database = new _JSONDatabase) {
-    const rows = await database.getRowsFromColVal(TABLE_NAME, 'user_slack_id', userSlackId)
-    const row = rows[0]
+    const row = await database.getRowFromColVal(TABLE_NAME, 'user_slack_id', userSlackId)
     return new ButtonCount(row, database)
   }
 

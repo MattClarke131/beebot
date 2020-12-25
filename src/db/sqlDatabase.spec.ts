@@ -82,4 +82,16 @@ describe('SQLDatabase', () => {
       expect(outputRow.col_1).toBe('hello')
     })
   })
+
+  describe('getRowsFromColVal()', () => {
+    it('should return an array of row hashes', async () => {
+      const db = new SQLDatabase(process.env.TEST_DB_PATH ?? '')
+      const inputRow = { col_1: 'hi', col_2: 2 }
+      await db.insertRow(TABLE_NAME, inputRow)
+      const outputRow = await db.getRowFromColVal(TABLE_NAME, 'col_2', 2)
+
+      expect(outputRow.col_1).toBe(inputRow.col_1)
+      expect(outputRow.col_2).toBe(inputRow.col_2)
+    })
+  })
 })
