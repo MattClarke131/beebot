@@ -8,7 +8,6 @@ class JSONDatabase implements Database {
   constructor(dbPath: string = DB_PATH) {
     this.databasePath = dbPath
   }
-  getConnection() {}
   getRowFromId(tableName: string, id: number) {
     return {}
   }

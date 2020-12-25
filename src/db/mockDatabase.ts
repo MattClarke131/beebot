@@ -7,7 +7,6 @@ class MockDatabase implements Database {
     this.databasePath = ''
   }
 
-  getConnection() {}
   getRowFromId(tableName: string, id: number) {
     return {}
   }

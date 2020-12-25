@@ -1,6 +1,5 @@
 interface Database {
   databasePath: string;
-  getConnection: () => any;
   getRowFromId: (tableName: string, id: number) => any;
   getRowFromColVal: (tableName: string, col: string, val: any) => Promise<any> | {[key: string]: any};
   insertRow: (tableName: string, row: {[key: string]: any}) => void;
