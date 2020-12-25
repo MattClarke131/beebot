@@ -52,21 +52,19 @@ describe('SQLDatabase', () => {
   })
 
   describe('constructor()', () => {
-    it('should set an instance property for a database connection', async () => {
-      const db = new SQLDatabase(process.env.TEST_DB_PATH ?? '')
-      expect(db.connection instanceof Promise).toBe(true)
+    it('should set a databasepath', () => {
+      const databasePath = 'databasePath'
+      const db = new SQLDatabase(databasePath)
+      expect(db.databasePath).toBe(databasePath)
     })
   })
 
   describe('insertRow()', () => {
     it('should insert a row into the database', async () => {
       const db = new SQLDatabase(process.env.TEST_DB_PATH ?? '')
-      const inputRow = {
-        col_1: 'hi',
-        col_2: 2
-      }
+      const inputRow = { col_1: 'hi', col_2: 2 }
       await db.insertRow(TABLE_NAME, inputRow)
-      const outputRow = await db.getRowFromId(TABLE_NAME, ROW_ID)
+      const outputRow = await db.getRowFromId(TABLE_NAME, 1)
 
       expect(outputRow.id).toBe(ROW_ID)
     })
