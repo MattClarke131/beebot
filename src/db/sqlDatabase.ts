@@ -32,10 +32,10 @@ class SQLDatabase implements Database {
   }
 
   // if multiple values exist, only one will be returned
-  async getRowFromColVal(tableName: string, col: string, val: any) {
+  async getRowFromColVal(tableName: string, column: string, val: any) {
     const connection = await this.getConnection()
     const rows = await connection.get(
-      `SELECT * FROM ${tableName} WHERE ${col} = ?`,
+      `SELECT * FROM ${tableName} WHERE ${column} = ?`,
       val
     )
 
@@ -46,9 +46,9 @@ class SQLDatabase implements Database {
 
   async insertRow(tableName: string, row: {[key: string]: any}) {
     const connection = await this.getConnection()
-    const columns = Object.keys(row).filter(key => key !== 'id')
-    const values = columns.map(k => row[k])
-    const questionMarkParamString = columns.map(k => '?').join (', ')
+    const columns = Object.keys(row)
+    const values = columns.map(key => row[key])
+    const questionMarkParamString = columns.map(key => '?').join (', ')
 
     await connection.run(
       `INSERT INTO ${tableName} (${columns}) VALUES (${questionMarkParamString})`,
@@ -69,14 +69,14 @@ class SQLDatabase implements Database {
 
   private _getKeyValuePairsFromRowHash(rowHash: {[key: string]: any}) {
     const columns = Object.keys(rowHash)
-      .filter(k => k !== 'id')
+      .filter(key => key !== 'id')
     const keyValuePairs = columns
-      .map((col) => {
-        const value = typeof rowHash[col] === 'string'
-          ? `'${rowHash[col]}'`
-          : `${rowHash[col]}`
+      .map((column) => {
+        const value = typeof rowHash[column] === 'string'
+          ? `'${rowHash[column]}'`
+          : `${rowHash[column]}`
 
-        return `${col} = ${value}`
+        return `${column} = ${value}`
       })
       .join(', ')
 
