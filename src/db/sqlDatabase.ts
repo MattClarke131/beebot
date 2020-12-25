@@ -46,7 +46,7 @@ class SQLDatabase implements Database {
 
   async insertRow(tableName: string, row: {[key: string]: any}) {
     const connection = await this.getConnection()
-    const columns = Object.keys(row)
+    const columns = Object.keys(row).filter(key => key !== 'id')
     const values = columns.map(k => row[k])
     const questionMarkParamString = columns.map(k => '?').join (', ')
 

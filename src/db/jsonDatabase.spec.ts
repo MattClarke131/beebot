@@ -102,7 +102,7 @@ describe('JSONDatabase', () => {
 
     it('should return a row', async () => {
       const dbInstance = new JSONDatabase(TEST_DB_PATH)
-      const result = await dbInstance.getRowFromColVal('button_count', 'slack_user_id', USER_SLACK_ID)
+      const result = await dbInstance.getRowFromColVal('button_count', 'user_slack_id', USER_SLACK_ID)
 
       expect(result.count).toBe(BUTTON_COUNT)
     })
