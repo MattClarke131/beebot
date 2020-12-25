@@ -1,7 +1,6 @@
 import * as sqlite from 'sqlite'
 import * as sqlite3 from 'sqlite3'
 import * as dotenv from 'dotenv'
-// what is this doing?
 dotenv.config()
 
 const TABLE_NAME = 'test_table'
@@ -18,7 +17,6 @@ beforeAll(async () => {
 })
 
 afterAll(async () => {
-  // is this necessary?
   databaseConnection.close()
 })
 
@@ -67,6 +65,8 @@ describe('SQLDatabase', () => {
       const outputRow = await db.getRowFromId(TABLE_NAME, 1)
 
       expect(outputRow.id).toBe(ROW_ID)
+      expect(outputRow.col_1).toBe(inputRow.col_1)
+      expect(outputRow.col_2).toBe(inputRow.col_2)
     })
   })
 
@@ -79,7 +79,8 @@ describe('SQLDatabase', () => {
       await db.updateRow(TABLE_NAME, updatedRow)
       const outputRow = await db.getRowFromId(TABLE_NAME, 1)
 
-      expect(outputRow.col_1).toBe('hello')
+      expect(outputRow.col_1).toBe(updatedRow.col_1)
+      expect(outputRow.col_2).toBe(updatedRow.col_2)
     })
   })
 
