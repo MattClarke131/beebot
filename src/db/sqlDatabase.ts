@@ -20,7 +20,6 @@ class SQLDatabase implements Database {
     })
   }
 
-  getDb() {}
   async getRowFromId(tableName: string, id: number) :Promise<any> {
     const connection = await this.getConnection()
     const row =  await connection.get(
@@ -49,7 +48,31 @@ class SQLDatabase implements Database {
 
     connection.close()
   }
-  updateRow(tableName: string, row:{[key: string]: any}) {}
+
+  async updateRow(tableName: string, row:{id: number,[ key: string]: any}) {
+    const connection = await this.getConnection()
+    const keyValuePairs = this._getKeyValuePairsFromRowHash(row)
+
+    await connection.run(
+      `UPDATE ${tableName} SET ${keyValuePairs} WHERE id = ${row.id}`
+    )
+  }
+
+  private _getKeyValuePairsFromRowHash(rowHash: {[key: string]: any}) {
+    const columns = Object.keys(rowHash)
+      .filter(k => k !== 'id')
+    const keyValuePairs = columns
+      .map((col) => {
+        const value = typeof rowHash[col] === 'string'
+          ? `'${rowHash[col]}'`
+          : `${rowHash[col]}`
+
+        return `${col} = ${value}`
+      })
+      .join(', ')
+
+    return keyValuePairs
+  }
 }
 
 export default SQLDatabase

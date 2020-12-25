@@ -69,4 +69,17 @@ describe('SQLDatabase', () => {
       expect(outputRow.id).toBe(ROW_ID)
     })
   })
+
+  describe('updateRow()', () => {
+    it('should update an existing row', async () => {
+      const db = new SQLDatabase(process.env.TEST_DB_PATH ?? '')
+      const inputRow = { col_1: 'hi', col_2: 2 }
+      await db.insertRow(TABLE_NAME, inputRow)
+      const updatedRow = Object.assign(inputRow, {id: 1, col_1: 'hello'})
+      await db.updateRow(TABLE_NAME, updatedRow)
+      const outputRow = await db.getRowFromId(TABLE_NAME, 1)
+
+      expect(outputRow.col_1).toBe('hello')
+    })
+  })
 })

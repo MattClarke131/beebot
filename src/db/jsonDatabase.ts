@@ -8,7 +8,7 @@ class JSONDatabase implements Database {
   constructor(dbPath: string = DB_PATH) {
     this.databasePath = dbPath
   }
-  getDb() {}
+  getConnection() {}
   getRowFromId(tableName: string, id: number) {
     return {}
   }
@@ -33,7 +33,7 @@ class JSONDatabase implements Database {
     const newRawData = JSON.stringify(buttonScores)
     await fs.writeFileSync(this.databasePath, newRawData)
   }
-  async updateRow(tableName: string, row: {[key: string]: any}) {
+  async updateRow(tableName: string, row: {id: number, [key: string]: any}) {
     const rawData: string | undefined = await fs.readFileSync(this.databasePath).toString()
     let buttonScores = JSON.parse(rawData)
     let rows = buttonScores.filter((r:any) => r.user_slack_id !== row.user_slack_id)
