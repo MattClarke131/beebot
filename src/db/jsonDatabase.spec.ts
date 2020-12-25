@@ -94,17 +94,17 @@ describe('JSONDatabase', () => {
     })
   })
 
-  describe('getRowsFromColVal', () => {
+  describe('getRowFromColVal', () => {
     it('should exist', () => {
       const dbInstance = new JSONDatabase(TEST_DB_PATH)
-      expect(typeof dbInstance.getRowsFromColVal).toBe('function')
+      expect(typeof dbInstance.getRowFromColVal).toBe('function')
     })
 
-    it('should return an array of rows', async () => {
+    it('should return a row', async () => {
       const dbInstance = new JSONDatabase(TEST_DB_PATH)
-      const result = await dbInstance.getRowsFromColVal('button_count', 'slack_user_id', USER_SLACK_ID)
+      const result = await dbInstance.getRowFromColVal('button_count', 'user_slack_id', USER_SLACK_ID)
 
-      expect(result[0].count).toBe(BUTTON_COUNT)
+      expect(result.count).toBe(BUTTON_COUNT)
     })
   })
 })

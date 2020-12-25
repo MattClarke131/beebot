@@ -1,17 +1,18 @@
 const sqlite3 = require('sqlite3').verbose();
 const sqlite = require('sqlite');
+const path = require('path')
 const fs = require('fs');
-const path = require('path');
+const dotenv = require('dotenv')
 
-const dbDir = __dirname + '/db'
+dotenv.config()
 
-const createDbPath = () => {
-  fs.mkdirSync(dbDir, { recursive: true})
+const createDbPath = async () => {
+  fs.mkdirSync(process.env.PROD_DB_DIR, { recursive: true})
 }
 
 const dbinit = async () => {
   const db = await sqlite.open({
-    filename: './db/beebot.sqlite',
+    filename: './sqlDatabase/beebot.sqlite',
     driver: sqlite3.Database,
   })
 
@@ -23,10 +24,10 @@ const dbinit = async () => {
   `);
   
   db.run(`
-    CREATE TABLE IF NOT EXISTS button_total (
+    CREATE TABLE IF NOT EXISTS button_count (
       id              INTEGER   PRIMARY KEY,
-      slack_user_id   INTEGER   NOT NULL,
-      total           INTEGER   NOT NULL
+      user_slack_id   INTEGER   NOT NULL,
+      count           INTEGER   NOT NULL
     )
  `);
 

@@ -4,14 +4,20 @@ import * as dotenv from 'dotenv'
 import * as fs from 'fs'
 
 import commandRouter from './commandRouter'
+import SQLDatabase from './db/sqlDatabase'
 
 dotenv.config()
+const dbPath = process.env.NODE_ENV === 'test' ?
+    process.env.TEST_DB_PATH :
+    process.env.PROD_DB_PATH
+const database = new SQLDatabase(dbPath)
 
 const COMMAND_CHARACTER = "!"
+const BOT_NAME = 'beebot'
 
 const bot = new SlackBot({
   token: `${process.env.BOT_TOKEN}`,
-  name: 'beebot'
+  name: BOT_NAME
 })
 
 bot.on('start', () => {
@@ -51,6 +57,6 @@ const handleMessage = (message : any) => {
     commandString = message.text.slice(1, message.text.indexOf(' '))
   }
   const commandClass = commandRouter(commandString)
-  const command = new commandClass(message)
+  const command = new commandClass(message, database)
   command.execute(bot)
 }

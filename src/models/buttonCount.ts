@@ -1,5 +1,5 @@
 import Database from '../db/databaseInterface'
-import _JSONDatabase from '../db/jsonDatabase'
+import _SQLDatabase from '../db/sqlDatabase'
 
 const TABLE_NAME = 'button_count'
 
@@ -17,7 +17,7 @@ class ButtonCount {
   database: Database
   tableName: string
 
-  constructor(params: Params = {}, database: Database = new _JSONDatabase) {
+  constructor(params: Params = {}, database: Database = new _SQLDatabase) {
     this.id = params.id || 0
     this.userSlackId = params.user_slack_id || ''
     this.count = params.count || 0
@@ -25,10 +25,14 @@ class ButtonCount {
     this.tableName = TABLE_NAME
   }
 
-  static async getInstanceFromUserSlackId(userSlackId: string, database: Database = new _JSONDatabase) {
-    const rows = await database.getRowsFromColVal(TABLE_NAME, 'user_slack_id', userSlackId)
-    const row = rows[0]
-    return new ButtonCount(row, database)
+  static async getInstanceFromUserSlackId(userSlackId: string, database: Database = new _SQLDatabase) {
+    const row = await database.getRowFromColVal(TABLE_NAME, 'user_slack_id', userSlackId)
+
+    if(row === undefined) {
+      return new ButtonCount({user_slack_id: userSlackId}, database)
+    } else {
+      return new ButtonCount(row, database)
+    }
   }
 
   async save() {
