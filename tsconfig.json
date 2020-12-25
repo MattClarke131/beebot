@@ -5,7 +5,10 @@
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "outDir": "./dist",
-    "allowJs": true
+    "allowJs": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
   "include": [
     "./src/**/*"
