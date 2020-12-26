@@ -3,7 +3,7 @@ import SlackBot from 'slackbots'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-import commandRouter from './commandRouter'
+import CommandRouter from './commandRouter'
 import SQLDatabase from './db/sqlDatabase'
 import botConfig from '../botConfig.json'
 import defaultBotConfig from '../defaultBotConfig.json'
@@ -12,6 +12,7 @@ const dbPath = process.env.NODE_ENV === 'test' ?
     process.env.TEST_DB_PATH :
     process.env.PROD_DB_PATH
 const database = new SQLDatabase(dbPath)
+const commandRouter = new CommandRouter(botConfig, defaultBotConfig)
 
 const bot = new SlackBot({
   token: `${process.env.BOT_TOKEN}`,
@@ -49,7 +50,7 @@ const handleMessage = (message : any) => {
   } else {
     commandString = message.text.slice(1, message.text.indexOf(' '))
   }
-  const commandClass = commandRouter(commandString)
+  const commandClass = commandRouter.route(commandString)
   const command = new commandClass(message, database)
   command.execute(bot)
 }
