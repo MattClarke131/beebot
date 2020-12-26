@@ -1,0 +1,16 @@
+{
+  "commandCharacter": "!",
+  "botName": "beebot",
+  "devChannel": "dev-beebot",
+  "bootMessage": "buzz buzz",
+  "commands": {
+    "anon": {
+      "enabled": false,
+      "aliases": [ "anon", "secret" ]
+    },
+    "button": {
+      "enabled": true,
+      "aliases": [ "button", "pushthebutton" ]
+    }
+  }
+}
