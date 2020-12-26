@@ -2,6 +2,13 @@ import Anon from "./commands/anon"
 import Button from "./commands/button"
 import NoOpCommand from "./commands/noop"
 
+const commandMap: {[key: string]: any} = {
+  // Please keep alphabetized
+  'anon': Anon,
+  'button': Button,
+  'noOpCommand': NoOpCommand,
+}
+
 class CommandRouter {
   botConfig: { [key: string]: any }
   defaultBotConfig: { [key: string]: any }
@@ -12,17 +19,12 @@ class CommandRouter {
   }
 
   route(alias: string) {
-    if (this.commandHasAliasEnabled('anon', alias)) {
-      return Anon
-    } else if (this.commandHasAliasEnabled('button', alias)) {
-      return Button
-    } else {
-      return NoOpCommand
-    }
-  }
+    const command: string = Object.keys(commandMap).find((key: string) => {
+      return this.commandIsEnabled(key)
+      && this.aliasIsEnabled(key, alias)
+    }) || 'noOpCommand'
 
-  commandHasAliasEnabled(command: string, alias: string) {
-    return this.commandIsEnabled(command) && this.aliasIsEnabled(command, alias)
+    return commandMap[command]
   }
 
   commandIsEnabled(command: string) {
