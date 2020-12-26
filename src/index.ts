@@ -50,7 +50,7 @@ const handleMessage = (message : any) => {
   } else {
     commandString = message.text.slice(1, message.text.indexOf(' '))
   }
-  const commandClass = commandRouter.route(commandString)
+  const commandClass: any = commandRouter.route(commandString)
   const command = new commandClass(message, database)
   command.execute(bot)
 }
