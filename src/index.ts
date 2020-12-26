@@ -5,8 +5,8 @@ dotenv.config()
 
 import CommandRouter from './commandRouter'
 import SQLDatabase from './db/sqlDatabase'
-import botConfig from '../botConfig.json'
-import defaultBotConfig from '../defaultBotConfig.json'
+const botConfig: any = require('../botConfig.json')
+const defaultBotConfig: any = require( '../defaultBotConfig.json')
 
 const dbPath = process.env.NODE_ENV === 'test' ?
     process.env.TEST_DB_PATH :
