@@ -6,7 +6,9 @@
   "commands": {
     "anon": {
       "enabled": false,
-      "aliases": [ "anon", "secret" ]
+      "aliases": [ "anon", "secret" ],
+      "defaultChannel": "#dev-beebot",
+      "enabledChannels": [ "#dev-beebot" ]
     },
     "button": {
       "enabled": true,

@@ -29,19 +29,19 @@ class CommandRouter {
 
   commandIsEnabled(command: string) {
     return (
-      this.botConfig.commands[command]?.enabled
+      this.botConfig.commands?.[command]?.enabled
       || (
-        !this.botConfig.commands[command]
-        && this.defaultBotConfig.commands[command]?.enabled
+        !this.botConfig.commands?.[command]
+        && this.defaultBotConfig.commands?.[command]?.enabled
       )
     )
   }
 
   aliasIsEnabled(command: string, alias: string) {
     return (
-      this.botConfig.commands[command]?.aliases?.includes(alias)
+      this.botConfig.commands?.[command]?.aliases?.includes(alias)
       || (
-        !this.botConfig.commands[command]?.aliases
+        !this.botConfig.commands?.[command]?.aliases
         && this.defaultBotConfig.commands[command]?.aliases?.includes(alias)
       )
     )
