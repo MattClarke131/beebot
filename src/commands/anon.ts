@@ -5,15 +5,12 @@ const botConfig: any = require('../../botConfig.json')
 const defaultBotConfig: any = require( '../../defaultBotConfig.json')
 
 class AnonCommand extends CommandBase {
-  static ERRORS = {
-    'NO_MSG': '!anon needs a message body',
-    'BAD_CHANNEL': 'That channel either doesn\'t exist, or the bees aren\'t aloud to share secrets there'
-  }
-
   static USAGE_STRING : string = "!anon (#channel) Anonymous message"
 
   enabledChannels: string[]
   defaultChannel: string
+  errors: { [key: string]: string }
+  usageString: string
   commandArgs: { [key: string]: string }
 
   constructor(message: any, config = botConfig) {
@@ -26,6 +23,12 @@ class AnonCommand extends CommandBase {
     this.defaultChannel =
       config?.commands?.anon?.defaultChannel ??
       defaultBotConfig.commands.anon.defaultChannel
+    this.errors =
+      config?.commands?.anon?.errors ??
+      defaultBotConfig.commands.anon.errors
+    this.usageString =
+      config?.commands?.anon?.usageString ??
+      defaultBotConfig.commands.anon.usageString
 
     this.commandArgs = this.getCommandArgs(message.text)
     this.channelDestination = this.getChannelDestination(this.commandArgs, message)
@@ -75,14 +78,14 @@ class AnonCommand extends CommandBase {
 
   getOutgoingMessage(commandArgs: any) {
     if (commandArgs.msg === '' && commandArgs.channel === '') {
-      return AnonCommand.USAGE_STRING
+      return this.usageString
     } else if (commandArgs.msg === '') {
-      return AnonCommand.ERRORS.NO_MSG
+      return this.errors.NO_MSG
     } else if (
         commandArgs.channel !== '' &&
         !this.enabledChannels.includes(commandArgs.channel)
     ) {
-      return AnonCommand.ERRORS.BAD_CHANNEL
+      return this.errors.BAD_CHANNEL
     } else {
       return commandArgs.msg
     }

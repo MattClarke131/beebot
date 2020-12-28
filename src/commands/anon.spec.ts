@@ -10,7 +10,12 @@ const mockBotConfig = {
   "commands": {
     "anon": {
       "defaultChannel": DEFAULT_CHANNEL,
-      "enabledChannels": [ DEFAULT_CHANNEL ]
+      "enabledChannels": [ DEFAULT_CHANNEL ],
+      "usageString":  "!anon (#channel) Anonymous message",
+      "errors": {
+        "NO_MSG": "!anon needs a message body",
+        "BAD_CHANNEL": "That channel either doesn't exist, or the bees aren't aloud to share secrets there"
+      }
     }
   }
 }
@@ -95,7 +100,7 @@ describe('getOutGoingMessage(commandArgs)', () => {
     const commandMessage = { text: messageText, user:USER }
     const anonCommand = new AnonCommand(commandMessage, mockBotConfig)
     test('outgoing message should be a usage string', () => {
-      expect(anonCommand.outgoingMessage).toEqual(AnonCommand.USAGE_STRING)
+      expect(anonCommand.outgoingMessage).toEqual(mockBotConfig.commands.anon.usageString)
     })
   })
   describe('when only a good channel is defined', () => {
@@ -103,7 +108,7 @@ describe('getOutGoingMessage(commandArgs)', () => {
     const commandMessage = { text: messageText, user:USER }
     const anonCommand = new AnonCommand(commandMessage, mockBotConfig)
     test('outgoing message should be missing msg error', () => {
-      expect(anonCommand.outgoingMessage).toEqual(AnonCommand.ERRORS.NO_MSG)
+      expect(anonCommand.outgoingMessage).toEqual(mockBotConfig.commands.anon.errors.NO_MSG)
     })
   })
   describe('when a bad channel is given', () => {
@@ -111,7 +116,7 @@ describe('getOutGoingMessage(commandArgs)', () => {
     const commandMessage = { text: messageText, user:USER }
     const anonCommand = new AnonCommand(commandMessage, mockBotConfig)
     test('outgoing message should be bad channel error', () => {
-      expect(anonCommand.outgoingMessage).toEqual(AnonCommand.ERRORS.BAD_CHANNEL)
+      expect(anonCommand.outgoingMessage).toEqual(mockBotConfig.commands.anon.errors.BAD_CHANNEL)
     })
   })
   describe('when msg and channel is defined', () => {
