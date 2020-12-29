@@ -4,7 +4,7 @@ const DEFAULT_CHANNEL = "#dev-beebot"
 const GOOD_CHANNEL = '#dev-beebot'
 const BAD_CHANNEL = '#bad_channel'
 const MESSAGE_TEXT = 'Buzz Buzz'
-const USER = 'ANamelessDronw';
+const USER = 'ANamelessDrone';
 
 const mockBotConfig = {
   "commands": {
@@ -90,6 +90,14 @@ describe('getChannelDestination(commandArgs, message', () => {
     const anonCommand = new AnonCommand(commandMessage, mockBotConfig)
     test('channel destination should be default channel', () => {
       expect(anonCommand.channelDestination).toEqual(DEFAULT_CHANNEL)
+    })
+  })
+  describe('when a bad channel is given', () => {
+    const messageText = COMMAND + ' ' + BAD_CHANNEL + ' ' + MESSAGE_TEXT
+    const commandMessage = { text: messageText, user:USER }
+    const anonCommand = new AnonCommand(commandMessage, mockBotConfig)
+    test('outgoing message should be bad channel error', () => {
+      expect(anonCommand.channelDestination).toEqual(commandMessage.user)
     })
   })
 })

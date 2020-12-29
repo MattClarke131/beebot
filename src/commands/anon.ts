@@ -72,7 +72,7 @@ class AnonCommand extends CommandBase {
     } else if (this.enabledChannels.includes(commandArgs.channel)) {
       return commandArgs.channel
     } else {
-      return this.defaultChannel
+      return message.user
     }
   }
 
