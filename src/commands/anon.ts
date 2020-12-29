@@ -1,32 +1,34 @@
 // @ts-ignore
 import * as SlackBot from 'slackbots'
 import CommandBase from './commandbase'
+const botConfig: any = require('../../botConfig.json')
+const defaultBotConfig: any = require( '../../defaultBotConfig.json')
 
 class AnonCommand extends CommandBase {
-  static aliases = [
-    'anon',
-    'secret',
-  ]
-
-  static ERRORS = {
-    'NO_MSG': '!anon needs a message body',
-    'BAD_CHANNEL': 'That channel either doesn\'t exist, or the bees aren\'t aloud to share secrets there'
-  }
-
-  static ENABLED_CHANNELS = [
-    '#anon',
-    '#dev-beebot',
-  ]
-
-  static DEFAULT_CHANNEL = "dev-beebot"
   static USAGE_STRING : string = "!anon (#channel) Anonymous message"
-  NUMBER_OF_REQUIRED_ARGS = 1
-  NUMBER_OF_OPTIONAL_ARGS = 1
 
-  commandArgs: any
+  enabledChannels: string[]
+  defaultChannel: string
+  errors: { [key: string]: string }
+  usageString: string
+  commandArgs: { [key: string]: string }
 
-  constructor(message: any) {
+  constructor(message: any, config = botConfig) {
     super(message)
+
+    // Config
+    this.enabledChannels =
+      config?.commands?.anon?.enabledChannels ??
+      defaultBotConfig.commands.anon.enabledChannels
+    this.defaultChannel =
+      config?.commands?.anon?.defaultChannel ??
+      defaultBotConfig.commands.anon.defaultChannel
+    this.errors =
+      config?.commands?.anon?.errors ??
+      defaultBotConfig.commands.anon.errors
+    this.usageString =
+      config?.commands?.anon?.usageString ??
+      defaultBotConfig.commands.anon.usageString
 
     this.commandArgs = this.getCommandArgs(message.text)
     this.channelDestination = this.getChannelDestination(this.commandArgs, message)
@@ -34,7 +36,7 @@ class AnonCommand extends CommandBase {
   }
 
   getCommandArgs(message: any) {
-    if (AnonCommand.aliases.includes(message)) {
+    if (message.indexOf(' ') === -1) {
       return {
         'msg': '',
         'channel': '',
@@ -66,24 +68,24 @@ class AnonCommand extends CommandBase {
     } else if (commandArgs.msg === '') {
       return message.user
     } else if (commandArgs.channel === '') {
-      return AnonCommand.DEFAULT_CHANNEL
-    } else if (AnonCommand.ENABLED_CHANNELS.includes(commandArgs.channel)) {
+      return this.defaultChannel
+    } else if (this.enabledChannels.includes(commandArgs.channel)) {
       return commandArgs.channel
     } else {
-      return AnonCommand.DEFAULT_CHANNEL
+      return this.defaultChannel
     }
   }
 
   getOutgoingMessage(commandArgs: any) {
     if (commandArgs.msg === '' && commandArgs.channel === '') {
-      return AnonCommand.USAGE_STRING
+      return this.usageString
     } else if (commandArgs.msg === '') {
-      return AnonCommand.ERRORS.NO_MSG
+      return this.errors.NO_MSG
     } else if (
         commandArgs.channel !== '' &&
-        !AnonCommand.ENABLED_CHANNELS.includes(commandArgs.channel)
+        !this.enabledChannels.includes(commandArgs.channel)
     ) {
-      return AnonCommand.ERRORS.BAD_CHANNEL
+      return this.errors.BAD_CHANNEL
     } else {
       return commandArgs.msg
     }
