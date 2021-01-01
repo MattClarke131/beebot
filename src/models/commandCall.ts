@@ -31,6 +31,23 @@ class CommandCall {
     this.database = database
   }
 
+  static fromMessage(message: any) : CommandCall {
+    const params: Params = {
+        command: this._getCommand(message.text),
+        messageText: message.text,
+        timestamp: Math.floor(message.ts),
+        userSlackId: message.user,
+      }
+
+    return new CommandCall(params)
+  }
+
+  static _getCommand(messageText: string) : string {
+    return messageText.indexOf(' ') === -1
+      ? messageText.slice(1)
+      : messageText.slice(1, messageText.indexOf(' '))
+  }
+
   async save() {
     const row = this._createRowHash()
     if(this.id === 0) {
