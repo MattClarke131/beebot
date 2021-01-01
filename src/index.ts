@@ -1,32 +1,30 @@
+// packages
 // @ts-ignore
 import SlackBot from 'slackbots'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
+// dependencies
 import CommandRouter from './commandRouter'
 import SQLDatabase from './db/sqlDatabase'
 const botConfig: any = require('../botConfig.json')
 const defaultBotConfig: any = require( '../defaultBotConfig.json')
-
+const config: any = Object.assign(defaultBotConfig, botConfig)
 const dbPath = process.env.NODE_ENV === 'test' ?
     process.env.TEST_DB_PATH :
     process.env.PROD_DB_PATH
 const database = new SQLDatabase(dbPath)
 const commandRouter = new CommandRouter(botConfig, defaultBotConfig)
 
+// bot
 const bot = new SlackBot({
   token: `${process.env.BOT_TOKEN}`,
-  name: botConfig.botName || defaultBotConfig.botName
+  name: config.botName
 })
 
 bot.on('start', () => {
   const params = {}
-
-  bot.postMessageToChannel(
-    botConfig.devChannel || defaultBotConfig.devChannel,
-    botConfig.bootMessage || defaultBotConfig.bootMessage,
-    params
-  )
+  bot.postMessageToChannel(config.devChannel, config.bootMessage, params)
 })
 
 bot.on('error', (err : any) => {
@@ -34,15 +32,15 @@ bot.on('error', (err : any) => {
 })
 
 bot.on('message', (message : any) => {
-  const commandCharacter = botConfig.commandCharacter || defaultBotConfig.commandCharacter
   if(
     !(message.subtype === 'bot_message')
-    && message?.text?.[0] === commandCharacter
+    && message?.text?.[0] === config.commandCharacter
   ) {
     handleMessage(message)
   }
 })
 
+// helper methods
 const handleMessage = (message : any) => {
   const commandString = getCommandString(message)
   const commandClass: any = commandRouter.route(commandString)
