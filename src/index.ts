@@ -44,13 +44,15 @@ bot.on('message', (message : any) => {
 })
 
 const handleMessage = (message : any) => {
-  let commandString
-  if (message.text.indexOf(' ') === -1) {
-    commandString = message.text.slice(1)
-  } else {
-    commandString = message.text.slice(1, message.text.indexOf(' '))
-  }
+  const commandString = getCommandString(message)
   const commandClass: any = commandRouter.route(commandString)
   const command = new commandClass(message, database)
+
   command.execute(bot)
+}
+
+const getCommandString = (message: any) => {
+  return message.text.indexOf(' ') === -1
+    ? message.text.slice(1)
+    : message.slice(1, message.text.indexOf(' '))
 }
