@@ -31,6 +31,16 @@ const dbinit = async () => {
     )
  `);
 
+  db.run(`
+    CREATE TABLE IF NOT EXISTS command_call (
+      id              INTEGER   PRIMARY KEY,
+      user_slack_id   INTEGER   NOT NULL,
+      command         TEXT      NOT NULL,
+      message_text    TEXT      NOT NULL,
+      time_stamp      INTEGER   NOT NULL
+    )
+  `);
+
   await db.close();
 }
 
