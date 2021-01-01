@@ -34,11 +34,11 @@ bot.on('error', (err : any) => {
 })
 
 bot.on('message', (message : any) => {
-  console.log(message)
   const commandCharacter = botConfig.commandCharacter || defaultBotConfig.commandCharacter
-  if(message.subtype === 'bot_message') {
-    return
-  } else if(message.text && message.text[0] === commandCharacter) {
+  if(
+    !(message.subtype === 'bot_message')
+    && message?.text?.[0] === commandCharacter
+  ) {
     handleMessage(message)
   }
 })
