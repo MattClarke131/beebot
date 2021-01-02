@@ -2,6 +2,7 @@
 button.json
 testButton.json
 errors.log
+botConfig.json
 .*.swp
 .*.swo
 *.sqlite
