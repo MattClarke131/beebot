@@ -55,6 +55,13 @@ describe('SQLDatabase', () => {
       const db = new SQLDatabase(databasePath)
       expect(db.databasePath).toBe(databasePath)
     })
+
+    it('should throw if given an empty path', () => {
+      const databasePath = ''
+      expect(() => {
+          new SQLDatabase('')
+        }).toThrow('sqlDatabase path must be defined')
+    })
   })
 
   describe('insertRow()', () => {

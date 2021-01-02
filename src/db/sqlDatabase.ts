@@ -1,15 +1,20 @@
 import * as sqlite from 'sqlite'
 import * as sqlite3 from 'sqlite3'
 sqlite3.verbose()
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 import Database from './databaseInterface'
 
-const DB_PATH = './sqlDatabase/beebot.sqlite'
+const DB_PATH = process.env.PROD_DB_PATH || ''
 
 class SQLDatabase implements Database {
   databasePath: string
 
   constructor(databasePath: string = DB_PATH) {
+    if (databasePath === '') {
+      throw('sqlDatabase path must be defined')
+    }
     this.databasePath = databasePath
   }
 
