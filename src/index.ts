@@ -7,6 +7,7 @@ dotenv.config()
 // dependencies
 import CommandRouter from './commandRouter'
 import SQLDatabase from './db/sqlDatabase'
+import CommandCall from './models/commandCall'
 const botConfig: any = require('../botConfig.json')
 const defaultBotConfig: any = require( '../defaultBotConfig.json')
 const config: any = Object.assign(defaultBotConfig, botConfig)
@@ -32,6 +33,7 @@ bot.on('error', (err : any) => {
 })
 
 bot.on('message', (message : any) => {
+  console.log(message)
   if(
     !(message.subtype === 'bot_message')
     && message?.text?.[0] === config.commandCharacter
@@ -41,12 +43,30 @@ bot.on('message', (message : any) => {
 })
 
 // helper methods
-const handleMessage = (message : any) => {
+const handleMessage = (message: any) => {
+  executeCommand(message)
+  logCommand(message)
+}
+
+const executeCommand = (message: any) => {
   const commandString = getCommandString(message)
   const commandClass: any = commandRouter.route(commandString)
   const command = new commandClass(message, database)
 
   command.execute(bot)
+}
+
+const logCommand = (message: any) => {
+  const commandCall = new CommandCall(
+    {
+      command: getCommandString(message),
+      messageText: message.text,
+      userSlackId: message.user,
+      timestamp: message.ts,
+    }
+  )
+
+  commandCall.save()
 }
 
 const getCommandString = (message: any) => {

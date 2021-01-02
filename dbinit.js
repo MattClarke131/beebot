@@ -17,7 +17,7 @@ const dbinit = async () => {
   })
 
   db.run(`
-    CREATE TABLE IF NOT EXISTS slack_user (
+    CREATE TABLE IF NOT EXISTS user (
       id        INTEGER   PRIMARY KEY,
       slack_id  TEXT      NOT NULL
     )
@@ -30,6 +30,16 @@ const dbinit = async () => {
       count           INTEGER   NOT NULL
     )
  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS command_call (
+      id              INTEGER   PRIMARY KEY,
+      user_slack_id   INTEGER   NOT NULL,
+      command         TEXT      NOT NULL,
+      message_text    TEXT      NOT NULL,
+      timestamp      INTEGER   NOT NULL
+    )
+  `);
 
   await db.close();
 }
