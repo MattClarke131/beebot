@@ -33,7 +33,10 @@ bot.on('error', (err : any) => {
 })
 
 bot.on('message', (message : any) => {
-  console.log(message)
+  if(message?.error?.msg !== 'invalid message type: null') {
+    console.log(message)
+  }
+
   if(
     !(message.subtype === 'bot_message')
     && message?.text?.[0] === config.commandCharacter
