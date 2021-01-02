@@ -12,7 +12,7 @@ const createDbPath = async () => {
 
 const dbinit = async () => {
   const db = await sqlite.open({
-    filename: './sqlDatabase/beebot.sqlite',
+    filename: process.env.PROD_DB_PATH,
     driver: sqlite3.Database,
   })
 
