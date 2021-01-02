@@ -48,15 +48,6 @@ describe('CommandCall', () => {
       expect(instance.timestamp).toBe(message.ts)
       expect(instance.command).toBe(COMMAND)
     })
-
-    it('should truncate the decimal of a timestamp', () => {
-      const decimal = 0.1
-      let message = getMockMessage()
-      message.ts += decimal
-      const instance = CommandCall.fromMessage(message)
-
-      expect(instance.timestamp).toBe(message.ts - decimal)
-    })
   })
 
   describe('save', () => {
