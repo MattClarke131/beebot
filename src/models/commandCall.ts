@@ -35,7 +35,7 @@ class CommandCall {
     const params: Params = {
         command: this._getCommand(message.text),
         messageText: message.text,
-        timestamp: Math.floor(message.ts),
+        timestamp: message.ts,
         userSlackId: message.user,
       }
 
