@@ -37,7 +37,7 @@ const dbinit = async () => {
       user_slack_id   INTEGER   NOT NULL,
       command         TEXT      NOT NULL,
       message_text    TEXT      NOT NULL,
-      time_stamp      INTEGER   NOT NULL
+      timestamp      INTEGER   NOT NULL
     )
   `);
 
