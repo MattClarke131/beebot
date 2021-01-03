@@ -59,7 +59,7 @@ describe('SQLDatabase', () => {
     it('should throw if given an empty path', () => {
       const databasePath = ''
       expect(() => {
-          new SQLDatabase('')
+          new SQLDatabase(databasePath)
         }).toThrow('sqlDatabase path must be defined')
     })
   })

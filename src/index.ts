@@ -56,7 +56,7 @@ const handleMessage = (message: any) => {
 const executeCommand = (message: any) => {
   const commandString = getCommandString(message)
   const commandClass: any = commandRouter.route(commandString)
-  const command = new commandClass(message, database)
+  const command = new commandClass(message, database, config)
 
   command.execute(bot)
 }

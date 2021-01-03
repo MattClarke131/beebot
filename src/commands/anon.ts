@@ -1,7 +1,6 @@
 // @ts-ignore
 import * as SlackBot from 'slackbots'
 import CommandBase from './commandbase'
-const botConfig: any = require('../../botConfig.json')
 const defaultBotConfig: any = require( '../../defaultBotConfig.json')
 
 class AnonCommand extends CommandBase {
@@ -13,22 +12,14 @@ class AnonCommand extends CommandBase {
   usageString: string
   commandArgs: { [key: string]: string }
 
-  constructor(message: any, config = botConfig) {
+  constructor(message: any, database: any, config = defaultBotConfig) {
     super(message)
 
     // Config
-    this.enabledChannels =
-      config?.commands?.anon?.enabledChannels ??
-      defaultBotConfig.commands.anon.enabledChannels
-    this.defaultChannel =
-      config?.commands?.anon?.defaultChannel ??
-      defaultBotConfig.commands.anon.defaultChannel
-    this.errors =
-      config?.commands?.anon?.errors ??
-      defaultBotConfig.commands.anon.errors
-    this.usageString =
-      config?.commands?.anon?.usageString ??
-      defaultBotConfig.commands.anon.usageString
+    this.enabledChannels = config.commands.anon.enabledChannels
+    this.defaultChannel = config.commands.anon.defaultChannel
+    this.errors = config.commands.anon.errors
+    this.usageString = config.commands.anon.usageString
 
     this.commandArgs = this.getCommandArgs(message.text)
     this.channelDestination = this.getChannelDestination(this.commandArgs, message)
