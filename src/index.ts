@@ -8,6 +8,8 @@ dotenv.config()
 import CommandRouter from './commandRouter'
 import SQLDatabase from './db/sqlDatabase'
 import CommandCall from './models/commandCall'
+delete require.cache[require.resolve('../botConfig.json')]
+delete require.cache[require.resolve('../defaultBotConfig.json')]
 const botConfig: any = require('../botConfig.json')
 const defaultBotConfig: any = require( '../defaultBotConfig.json')
 const config: any = Object.assign(defaultBotConfig, botConfig)

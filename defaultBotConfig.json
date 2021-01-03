@@ -9,7 +9,7 @@
       "aliases": [ "anon", "secret" ],
       "defaultChannel": "#dev-beebot",
       "enabledChannels": [ "#dev-beebot" ],
-      "usageString":  "!anon (#channel) Anonymous message",
+      "usageString":  "!anon #channel Anonymous message",
       "errors": {
         "NO_MSG": "!anon needs a message body",
         "BAD_CHANNEL": "That channel either doesn't exist, or the bees aren't aloud to share secrets there"
