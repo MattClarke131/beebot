@@ -4,7 +4,6 @@ import CommandBase from './commandbase'
 const defaultBotConfig: any = require( '../../defaultBotConfig.json')
 
 class AnonCommand extends CommandBase {
-  static USAGE_STRING : string = "!anon (#channel) Anonymous message"
 
   enabledChannels: string[]
   defaultChannel: string
@@ -35,22 +34,30 @@ class AnonCommand extends CommandBase {
     }
 
     const commandBody = message.slice(message.indexOf(' ')+1)
-    if (commandBody[0] !== '#') {
+    if (commandBody[0] !== '<') { // No Channel is specified
       return {
         'msg': commandBody,
         'channel': ''
       }
-    } else if(commandBody.indexOf(' ') === -1) {
+    } else if(commandBody.indexOf(' ') === -1) { // Nothing is specified
       return {
         'msg': '',
-        'channel': commandBody,
+        'channel': this.getChannelFromCommandBody(commandBody)
       }
     } else {
       return {
         'msg': commandBody.slice(commandBody.indexOf(' ')+1),
-        'channel': commandBody.slice(0, commandBody.indexOf(' ')),
+        'channel': this.getChannelFromCommandBody(commandBody)
       }
     }
+  }
+
+  private getChannelFromCommandBody(commandBody: string) {
+    return '#' +
+      commandBody.slice(
+        commandBody.indexOf('|')+1,
+        commandBody.indexOf('>')
+      )
   }
 
   getChannelDestination(commandArgs: any, message: any) {

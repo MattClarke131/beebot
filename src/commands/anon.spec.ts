@@ -1,16 +1,17 @@
 import AnonCommand from './anon'
 const COMMAND = 'anon'
-const DEFAULT_CHANNEL = "#dev-beebot"
-const GOOD_CHANNEL = '#dev-beebot'
-const BAD_CHANNEL = '#bad_channel'
+const DEFAULT_CHANNEL = 'dev-beebot'
+const CHANNEL_ID = 'ABC123'
+const GOOD_CHANNEL = `<#${CHANNEL_ID}|${DEFAULT_CHANNEL}>`
+const BAD_CHANNEL = `<#${CHANNEL_ID}|bad-channel>`
 const MESSAGE_TEXT = 'Buzz Buzz'
 const USER = 'ANamelessDrone';
 
 const mockBotConfig = {
   "commands": {
     "anon": {
-      "defaultChannel": DEFAULT_CHANNEL,
-      "enabledChannels": [ DEFAULT_CHANNEL ],
+      "defaultChannel": `#${DEFAULT_CHANNEL}`,
+      "enabledChannels": [ `#${DEFAULT_CHANNEL}` ],
       "usageString":  "!anon (#channel) Anonymous message",
       "errors": {
         "NO_MSG": "!anon needs a message body",
@@ -36,7 +37,7 @@ describe('getCommandArgs(message)', () => {
     const anonCommand = new AnonCommand(commandMessage, null, mockBotConfig)
     test('anonCommand instance should only have a channel argument', () => {
       expect(anonCommand.commandArgs.msg).toEqual('')
-      expect(anonCommand.commandArgs.channel).toEqual(GOOD_CHANNEL)
+      expect(anonCommand.commandArgs.channel).toEqual(mockBotConfig.commands.anon.defaultChannel)
     })
   })
   describe('when given only a message as an argument', () => {
@@ -54,7 +55,8 @@ describe('getCommandArgs(message)', () => {
     const anonCommand = new AnonCommand(commandMessage, null, mockBotConfig)
     test('anonCommand instance should only have a msg argument', () => {
       expect(anonCommand.commandArgs.msg).toEqual(MESSAGE_TEXT)
-      expect(anonCommand.commandArgs.channel).toEqual(GOOD_CHANNEL)
+      const expectedChannel = mockBotConfig.commands.anon.defaultChannel
+      expect(anonCommand.commandArgs.channel).toEqual(expectedChannel)
     })
   })
 })
@@ -81,7 +83,8 @@ describe('getChannelDestination(commandArgs, message', () => {
     const commandMessage = { text: messageText, user:USER }
     const anonCommand = new AnonCommand(commandMessage, null, mockBotConfig)
     test('channel destination should be default channel', () => {
-      expect(anonCommand.channelDestination).toEqual(DEFAULT_CHANNEL)
+      const expectedChannel = mockBotConfig.commands.anon.defaultChannel
+      expect(anonCommand.channelDestination).toEqual(expectedChannel)
     })
   })
   describe('when msg and channel is defined', () => {
@@ -89,7 +92,8 @@ describe('getChannelDestination(commandArgs, message', () => {
     const commandMessage = { text: messageText, user:USER }
     const anonCommand = new AnonCommand(commandMessage, null, mockBotConfig)
     test('channel destination should be default channel', () => {
-      expect(anonCommand.channelDestination).toEqual(DEFAULT_CHANNEL)
+      const expectedChannel = mockBotConfig.commands.anon.defaultChannel
+      expect(anonCommand.channelDestination).toEqual(expectedChannel)
     })
   })
   describe('when a bad channel is given', () => {
