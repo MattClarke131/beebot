@@ -1,5 +1,5 @@
 # beebot
-###### BEEEEEEEEEEEEEEEEES
+Beebot is a slackbot running on a node server.
 
 ## How to use
 #### Installation
@@ -18,22 +18,15 @@ TEST_DB_PATH=absolute/path/to/your/db/dir
 #### Run tests
 > npm run test
 
-## Roadmap
-* Create command modules for related commands (e.g. werewolf)
-* !help command
-* Werewolf
-* Installation instructions
-
-
 ## Resources
+#### Setting up slack side of things
+https://www.freecodecamp.org/news/building-a-slackbot-with-node-js-and-slackbots-js/
+
 #### Slackbots package documentation
 https://www.npmjs.com/package/slackbots
 
-#### Jest Documentation
-https://jestjs.io/docs/en/api
+#### Resource for building a better UI
+https://www.blockbuilder.dev/#/
 
-#### Notes
-https://www.freecodecamp.org/news/building-a-slackbot-with-node-js-and-slackbots-js/
-
-Possibly useful for organizing commands
-https://discordjs.guide/command-handling/#dynamically-reading-command-files
+#### Possible resource for bot backend
+https://botkit.ai/docs/v4/reference/slack.html
