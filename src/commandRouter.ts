@@ -25,12 +25,12 @@ class CommandRouter {
     return commandMap[command]
   }
 
-  commandIsEnabled(command: string) {
-    return this.config.commands?.[command]?.enabled;
+  commandIsEnabled(command: string) : boolean {
+    return this.config.commands?.[command]?.enabled ?? false;
   }
 
-  aliasIsEnabled(command: string, alias: string) {
-    return this.config.commands?.[command]?.aliases?.includes(alias);
+  aliasIsEnabled(command: string, alias: string) : boolean {
+    return this.config.commands?.[command]?.aliases?.includes(alias) ?? false;
   }
 }
 
