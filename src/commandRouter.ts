@@ -10,12 +10,10 @@ const commandMap: {[key: string]: any} = {
 }
 
 class CommandRouter {
-  botConfig: { [key: string]: any }
-  defaultBotConfig: { [key: string]: any }
+  config: { [key: string]: any }
 
-  constructor(botConfig: object, defaultBotConfig: object) {
-    this.botConfig = botConfig
-    this.defaultBotConfig = defaultBotConfig
+  constructor(config: object) {
+    this.config = config;
   }
 
   route(alias: string) {
@@ -27,24 +25,12 @@ class CommandRouter {
     return commandMap[command]
   }
 
-  commandIsEnabled(command: string) {
-    return (
-      this.botConfig.commands?.[command]?.enabled
-      || (
-        !this.botConfig.commands?.[command]
-        && this.defaultBotConfig.commands?.[command]?.enabled
-      )
-    )
+  commandIsEnabled(command: string) : boolean {
+    return this.config.commands?.[command]?.enabled ?? false;
   }
 
-  aliasIsEnabled(command: string, alias: string) {
-    return (
-      this.botConfig.commands?.[command]?.aliases?.includes(alias)
-      || (
-        !this.botConfig.commands?.[command]?.aliases
-        && this.defaultBotConfig.commands[command]?.aliases?.includes(alias)
-      )
-    )
+  aliasIsEnabled(command: string, alias: string) : boolean {
+    return this.config.commands?.[command]?.aliases?.includes(alias) ?? false;
   }
 }
 

@@ -8,16 +8,14 @@ dotenv.config()
 import CommandRouter from './commandRouter'
 import SQLDatabase from './db/sqlDatabase'
 import CommandCall from './models/commandCall'
-delete require.cache[require.resolve('../botConfig.json')]
-delete require.cache[require.resolve('../defaultBotConfig.json')]
-const botConfig: any = require('../botConfig.json')
-const defaultBotConfig: any = require( '../defaultBotConfig.json')
-const config: any = Object.assign(defaultBotConfig, botConfig)
+import configGenerator from './config'
+
+const config: any = configGenerator();
 const dbPath = process.env.NODE_ENV === 'test' ?
     process.env.TEST_DB_PATH :
     process.env.PROD_DB_PATH
 const database = new SQLDatabase(dbPath)
-const commandRouter = new CommandRouter(botConfig, defaultBotConfig)
+const commandRouter = new CommandRouter(config)
 
 // bot
 const bot = new SlackBot({
