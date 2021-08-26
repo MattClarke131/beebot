@@ -28,7 +28,7 @@
     "forever": "^3.0.2",
     "fs": "0.0.1-security",
     "nodemon": "^2.0.6",
-    "slackbots": "^1.2.0",
+    "slackbots": "MattClarke131/slack-bot-api",
     "sqlite": "^4.0.17",
     "sqlite3": "^5.0.0",
     "ts-jest": "^26.4.4",
