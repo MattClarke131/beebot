@@ -1,10 +1,12 @@
 import Anon from "./commands/anon"
+import Bee from "./commands/bee"
 import Button from "./commands/button"
 import NoOpCommand from "./commands/noop"
 
 const commandMap: {[key: string]: any} = {
   // Please keep alphabetized
   'anon': Anon,
+  'bee': Bee,
   'button': Button,
   'noOpCommand': NoOpCommand,
 }
@@ -19,7 +21,7 @@ class CommandRouter {
   route(alias: string) {
     const command: string = Object.keys(commandMap).find((key: string) => {
       return this.commandIsEnabled(key)
-      && this.aliasIsEnabled(key, alias)
+        && this.aliasIsEnabled(key, alias)
     }) || 'noOpCommand'
 
     return commandMap[command]
